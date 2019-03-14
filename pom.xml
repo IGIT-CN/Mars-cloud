@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.gitee.sherlockholmnes</groupId>
+    <artifactId>Mars-cloud</artifactId>
+    <packaging>pom</packaging>
+    <version>0.1.1</version>
+    <modules>
+        <module>mars-cloud-start</module>
+        <module>mars-cloud-reg</module>
+        <module>mars-cloud-rest</module>
+        <module>mars-cloud-start-springboot</module>
+        <module>mars-cloud-core</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.gitee.sherlockholmnes</groupId>
+                <artifactId>mars-cloud-reg</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gitee.sherlockholmnes</groupId>
+                <artifactId>mars-cloud-rest</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gitee.sherlockholmnes</groupId>
+                <artifactId>mars-cloud-core</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gitee.sherlockholmnes</groupId>
+                <artifactId>mars-extends-all</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
