@@ -12,7 +12,6 @@
         <module>mars-cloud-start</module>
         <module>mars-cloud-reg</module>
         <module>mars-cloud-rest</module>
-        <module>mars-cloud-start-springboot</module>
         <module>mars-cloud-core</module>
     </modules>
 
