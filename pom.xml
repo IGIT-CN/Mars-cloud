@@ -10,7 +10,7 @@
     <version>0.1.1</version>
     <modules>
         <module>mars-cloud-start</module>
-        <module>mars-cloud-reg</module>
+        <module>mars-cloud-registered</module>
         <module>mars-cloud-rest</module>
         <module>mars-cloud-core</module>
     </modules>
@@ -19,7 +19,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
-                <artifactId>mars-cloud-reg</artifactId>
+                <artifactId>mars-cloud-registered</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
             <dependency>
@@ -33,6 +33,26 @@
                 <version>${project.parent.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.github.yuyenews</groupId>
+                <artifactId>mars-jdbc-base</artifactId>
+                <version>2.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yuyenews</groupId>
+                <artifactId>mars-mvc</artifactId>
+                <version>2.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yuyenews</groupId>
+                <artifactId>mars-junit</artifactId>
+                <version>2.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.yuyenews</groupId>
+                <artifactId>mars-mybatis</artifactId>
+                <version>2.1.1</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
                 <artifactId>mars-extends-all</artifactId>
