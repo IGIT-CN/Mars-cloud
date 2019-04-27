@@ -1,3 +1,5 @@
 cloud:
   name: cloud-client1
-  register: zookeeper://127.0.0.1:8080,zookeeper://127.0.0.1:8081,zookeeper://127.0.0.1:8082
+  sessionTimeout: 1000
+  strategy: 1
+  register: 10.211.55.9:2180

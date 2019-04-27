@@ -11,5 +11,10 @@
     <packaging>jar</packaging>
     <artifactId>mars-cloud-rest</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.github.yuyenews</groupId>
+            <artifactId>mars-cloud-registered</artifactId>
+        </dependency>
+    </dependencies>
 </project>

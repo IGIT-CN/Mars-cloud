@@ -1,6 +1,7 @@
 package com.mars.base;
 
 import com.alibaba.fastjson.JSONObject;
+import com.mars.cloud.registered.Registered;
 import com.mars.core.after.StartAfter;
 import com.mars.core.constant.EasyConstant;
 import com.mars.core.constant.EasySpace;
@@ -93,8 +94,8 @@ public class BaseStartMars {
     /**
      * 加载cloud需要的数据
      */
-    private static void initCloud(){
-
+    private static void initCloud() throws Exception {
+        Registered.register();
     }
 
     /**

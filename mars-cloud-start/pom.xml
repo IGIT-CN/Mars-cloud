@@ -14,31 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-cloud-registered</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yuyenews</groupId>
             <artifactId>mars-cloud-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-jdbc-base</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-mvc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-extends-all</artifactId>
         </dependency>
     </dependencies>
 </project>

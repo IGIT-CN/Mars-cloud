@@ -11,5 +11,26 @@
     <packaging>jar</packaging>
     <artifactId>mars-cloud-core</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.github.yuyenews</groupId>
+            <artifactId>mars-jdbc-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.yuyenews</groupId>
+            <artifactId>mars-mvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.yuyenews</groupId>
+            <artifactId>mars-junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.yuyenews</groupId>
+            <artifactId>mars-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+    </dependencies>
 </project>

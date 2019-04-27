@@ -36,27 +36,33 @@
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
                 <artifactId>mars-jdbc-base</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
                 <artifactId>mars-mvc</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
                 <artifactId>mars-junit</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
             </dependency>
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
                 <artifactId>mars-mybatis</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
             </dependency>
             <dependency>
-                <groupId>com.github.yuyenews</groupId>
-                <artifactId>mars-extends-all</artifactId>
-                <version>2.1.0</version>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>3.4.14</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.netty</groupId>
+                        <artifactId>netty</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
