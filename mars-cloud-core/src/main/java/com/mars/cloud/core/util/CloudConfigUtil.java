@@ -3,9 +3,6 @@ package com.mars.cloud.core.util;
 import com.alibaba.fastjson.JSONObject;
 import com.mars.core.util.ConfigUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * cloud模块配置文件管理
  */
@@ -46,18 +43,9 @@ public class CloudConfigUtil {
      * @return
      * @throws Exception
      */
-    public static List<String> getCloudRegister() throws Exception {
+    public static String getCloudRegister() throws Exception {
         try {
-            JSONObject cloudConfig =  getCloudConfig();
-
-            List<String> registerLister = new ArrayList<>();
-
-            String register = cloudConfig.getString("register");
-            for(String str : register.split(",")){
-                registerLister.add(str);
-            }
-
-            return registerLister;
+            return getCloudConfig("register").toString();
         } catch (Exception e){
             throw new Exception("获取cloud配置中的register失败",e);
         }

@@ -1,6 +1,5 @@
 package com.mars.cloud.registered;
 
-import com.alibaba.fastjson.JSONArray;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZookeeperHelper;
 import com.mars.cloud.core.util.CloudConfigUtil;
@@ -8,7 +7,6 @@ import com.mars.cloud.core.util.CloudUtil;
 import com.mars.core.constant.EasySpace;
 import com.mars.mvc.resolve.model.EasyMappingModel;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,30 +27,25 @@ public class Registered {
             /* 打开zookeeper连接 */
             zookeeperHelper.openConnection();
 
-
             /* 获取本服务的名称 */
             String serverName = CloudConfigUtil.getCloudName();
-            String node = "";
-
-            zookeeperHelper.createNode(CloudConstant.BASE_SERVER_NODE,"init");
+            /* 获取本服务IP */
+            String ip = CloudUtil.getLocalIp();
+            /* 获取本服务端口 */
+            String port = CloudUtil.getPort();
 
             /* 将本服务的接口发布注册到zookeeper */
             Map<String,EasyMappingModel> maps = getControllers();
-            for(String key : maps.keySet()){
+            for(String methodName : maps.keySet()){
 
-                zookeeperHelper.createNode(CloudConstant.SERVER_NODE.replace("{serverName}",serverName),"init");
-
-                node = CloudConstant.API_SERVER_NODE.replace("{serverName}",serverName).replace("{method}",key);
-                String str = zookeeperHelper.getData(node);
-
-                JSONArray jsonArray = new JSONArray();
-                if(str != null && !str.equals("")){
-                    jsonArray = JSONArray.parseArray(str);
-                }
-                jsonArray.add(CloudUtil.getLocalHost()+"/"+key);
+                String node = CloudConstant.API_SERVER_NODE
+                        .replace("{serverName}",serverName)
+                        .replace("{method}",methodName)
+                        .replace("{ip}",ip)
+                        .replace("{port}",port);
 
                 /* 将本服务的接口已写入zookeeper */
-                zookeeperHelper.createNode(node,jsonArray.toJSONString());
+                zookeeperHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
             }
 
         } catch (Exception e){

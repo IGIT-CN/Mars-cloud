@@ -24,7 +24,7 @@ public class ZookeeperHelper implements Watcher {
     /**
      * session超时时间
      */
-    private int sessionTimeout = 10000;
+    private int sessionTimeout = 100000;
 
     /**
      * 注册中心地址
@@ -67,6 +67,29 @@ public class ZookeeperHelper implements Watcher {
         }
     }
 
+
+    /**
+     * 创建节点
+     *
+     * @param path
+     * @param data
+     * @return
+     * @throws Exception
+     */
+    public String createNodes(String path, String data) throws Exception {
+        String[] pa = path.split("/");
+        StringBuffer pat = new StringBuffer();
+        for(int i=1;i<pa.length;i++){
+            pat.append("/");
+            pat.append(pa[i]);
+            if(i < pa.length-1){
+                createNode(pat.toString(),"init");
+            } else {
+                createNode(pat.toString(),data);
+            }
+        }
+        return "ok";
+    }
 
     /**
      * 创建节点
@@ -189,13 +212,6 @@ public class ZookeeperHelper implements Watcher {
     public void process(WatchedEvent watchedEvent) {
         if (watchedEvent.getState() == Event.KeeperState.SyncConnected) {
             countDownLatch.countDown();
-            marsLogger.info("**********************************************");
-        } else if (watchedEvent.getType() == Event.EventType.NodeCreated) {
-            marsLogger.info(watchedEvent.getPath() + " created");
-        } else if (watchedEvent.getType() == Event.EventType.NodeDataChanged) {
-            marsLogger.info(watchedEvent.getPath() + " updated");
-        } else if (watchedEvent.getType() == Event.EventType.NodeDeleted) {
-            marsLogger.info(watchedEvent.getPath() + " deleted");
         }
     }
 }

@@ -1,10 +1,10 @@
 package com.mars.cloud.util;
 
-import com.alibaba.fastjson.JSONArray;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.core.constant.EasySpace;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,13 +28,13 @@ public class ServerListUtil {
      * @param key
      * @param value
      */
-    public static void add(String key, JSONArray value){
+    public static void add(String key, List<String> value){
         Object obj = constants.getAttr("serverList");
 
-        Map<String,JSONArray> serverList = new HashMap<>();
+        Map<String,List<String>> serverList = new HashMap<>();
 
         if(obj != null){
-            serverList = (Map<String,JSONArray>)obj;
+            serverList = (Map<String,List<String>>)obj;
         }
         serverList.put(key,value);
 
@@ -46,11 +46,11 @@ public class ServerListUtil {
      * @param key 服务name + controller映射的value
      * @return
      */
-    public static JSONArray get(String key){
+    public static List<String> get(String key){
         Object obj = constants.getAttr("serverList");
 
         if(obj != null){
-            Map<String,JSONArray> serverList = (Map<String,JSONArray>)obj;
+            Map<String,List<String>> serverList = (Map<String,List<String>>)obj;
             return serverList.get(CloudConstant.BASE_SERVER_NODE+"/"+key);
         }
 
@@ -61,11 +61,11 @@ public class ServerListUtil {
      * 获取服务接口列表
      * @return
      */
-    public static Map<String,JSONArray> getAll(){
+    public static Map<String,List<String>> getAll(){
         Object obj = constants.getAttr("serverList");
 
         if(obj != null){
-            Map<String,JSONArray> serverList = (Map<String,JSONArray>)obj;
+            Map<String,List<String>> serverList = (Map<String,List<String>>)obj;
             return serverList;
         }
 

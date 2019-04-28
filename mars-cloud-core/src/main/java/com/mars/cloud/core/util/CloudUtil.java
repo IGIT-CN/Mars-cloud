@@ -2,7 +2,9 @@ package com.mars.cloud.core.util;
 
 import com.mars.core.util.ConfigUtil;
 
-import java.net.*;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 /**
@@ -38,6 +40,7 @@ public class CloudUtil {
      */
     public static String getLocalHost() throws Exception {
         getLocalIp();
+        getPort();
         initLocal();
         return localHost;
     }
@@ -55,13 +58,22 @@ public class CloudUtil {
     }
 
     /**
+     * 获取端口号
+     * @return
+     * @throws Exception
+     */
+    public static String getPort() {
+        if(port == null){
+            port = ConfigUtil.getConfig().getString("port");
+        }
+        return port;
+    }
+
+    /**
      * 初始化local参数
      * @throws Exception
      */
     private static void initLocal() throws Exception {
-        if(port == null){
-            port = ConfigUtil.getConfig().getString("port");
-        }
         if(protocol == null){
             Object proto = CloudConfigUtil.getCloudConfig("protocol");
             if(proto == null){
@@ -80,7 +92,7 @@ public class CloudUtil {
     }
 
     /**
-     * 正确的IP拿法，即优先拿site-local地址
+     * 获取本服务的IP
      * @return
      * @throws UnknownHostException
      */
@@ -120,5 +132,4 @@ public class CloudUtil {
             throw unknownHostException;
         }
     }
-
 }
