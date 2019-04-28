@@ -29,12 +29,10 @@ public class ServerListUtil {
      * @param value
      */
     public static void add(String key, List<String> value){
-        Object obj = constants.getAttr("serverList");
+        Map<String,List<String>> serverList = getAll();
 
-        Map<String,List<String>> serverList = new HashMap<>();
-
-        if(obj != null){
-            serverList = (Map<String,List<String>>)obj;
+        if(serverList == null){
+            serverList = new HashMap<>();
         }
         serverList.put(key,value);
 
@@ -47,14 +45,7 @@ public class ServerListUtil {
      * @return
      */
     public static List<String> get(String key){
-        Object obj = constants.getAttr("serverList");
-
-        if(obj != null){
-            Map<String,List<String>> serverList = (Map<String,List<String>>)obj;
-            return serverList.get(CloudConstant.BASE_SERVER_NODE+"/"+key);
-        }
-
-        return null;
+        return getAll().get(CloudConstant.BASE_SERVER_NODE+"/"+key);
     }
 
     /**
