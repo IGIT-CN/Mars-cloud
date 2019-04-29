@@ -6,6 +6,7 @@ import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.util.CloudUtil;
 import com.mars.core.constant.MarsConstant;
 import com.mars.core.constant.MarsSpace;
+import com.mars.core.logger.MarsLogger;
 import com.mars.mvc.resolve.model.EasyMappingModel;
 
 import java.util.Map;
@@ -14,6 +15,8 @@ import java.util.Map;
  * 注册接口
  */
 public class Registered {
+
+    private static MarsLogger marsLogger = MarsLogger.getLogger(Registered.class);
 
     private static ZookeeperHelper zookeeperHelper = new ZookeeperHelper();
 
@@ -46,9 +49,11 @@ public class Registered {
                         .replace("{port}",port);
 
                 /* 将本服务的接口已写入zookeeper */
-                zookeeperHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
-            }
+                String url = CloudUtil.getLocalHost()+"/"+methodName;
+                zookeeperHelper.createNodes(node,url);
 
+                marsLogger.info("接口["+url+"]注册成功");
+            }
         } catch (Exception e){
             throw new Exception("注册与发布接口失败",e);
         } finally {

@@ -43,11 +43,11 @@ public class BaseStartMars {
             /* 标识createbean方法已经调用完毕 */
             constants.setAttr(MarsConstant.HAS_START,"yes");
 
-            /* 启动after方法 */
-            StartAfter.after();
-
             /* 加载cloud需要的数据 */
             initCloud();
+
+            /* 启动after方法 */
+            StartAfter.after();
 
             /* 启动netty */
             EasyServer.start(getPort());
