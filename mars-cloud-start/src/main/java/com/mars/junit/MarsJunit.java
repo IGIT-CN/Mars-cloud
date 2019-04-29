@@ -16,7 +16,7 @@ public abstract class MarsJunit {
      * @param packName
      */
     public void init(String packName){
-        List<Object> list = new ArrayList<>();
+        List<StartList> list = new ArrayList<>();
         list.add(new LoadCloud());
         MarsJunitStart.start(new InitJdbc(),packName,this,list);
     }
