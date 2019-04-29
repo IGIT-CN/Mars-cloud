@@ -2,6 +2,7 @@ package com.mars.cloud.rest;
 
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZookeeperHelper;
+import com.mars.cloud.model.UrlListModel;
 import com.mars.cloud.util.ServerListUtil;
 
 import java.util.ArrayList;
@@ -55,7 +56,9 @@ public class LoadCloudApis {
 
                 if (!urls.isEmpty()) {
                     /* 将接口列表存入本地缓存 */
-                    ServerListUtil.add(path, urls);
+                    UrlListModel urlListModel = new UrlListModel();
+                    urlListModel.setUrls(urls);
+                    ServerListUtil.add(path, urlListModel);
                 }
             }
         } catch (Exception e){

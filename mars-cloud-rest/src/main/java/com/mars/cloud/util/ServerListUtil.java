@@ -1,10 +1,10 @@
 package com.mars.cloud.util;
 
 import com.mars.cloud.core.constant.CloudConstant;
-import com.mars.core.constant.EasySpace;
+import com.mars.cloud.model.UrlListModel;
+import com.mars.core.constant.MarsSpace;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class ServerListUtil {
 
-    private static EasySpace constants = EasySpace.getEasySpace();
+    private static MarsSpace constants = MarsSpace.getEasySpace();
 
     /**
      * 是否有数据
@@ -28,8 +28,8 @@ public class ServerListUtil {
      * @param key
      * @param value
      */
-    public static void add(String key, List<String> value){
-        Map<String,List<String>> serverList = getAll();
+    public static void add(String key, UrlListModel value){
+        Map<String,UrlListModel> serverList = getAll();
 
         if(serverList == null){
             serverList = new HashMap<>();
@@ -44,19 +44,23 @@ public class ServerListUtil {
      * @param key 服务name + controller映射的value
      * @return
      */
-    public static List<String> get(String key){
+    public static UrlListModel get(String key){
         return getAll().get(CloudConstant.BASE_SERVER_NODE+"/"+key);
+    }
+
+    public static void countUp(String key){
+
     }
 
     /**
      * 获取服务接口列表
      * @return
      */
-    public static Map<String,List<String>> getAll(){
+    public static Map<String,UrlListModel> getAll(){
         Object obj = constants.getAttr("serverList");
 
         if(obj != null){
-            Map<String,List<String>> serverList = (Map<String,List<String>>)obj;
+            Map<String, UrlListModel> serverList = (Map<String,UrlListModel>)obj;
             return serverList;
         }
 

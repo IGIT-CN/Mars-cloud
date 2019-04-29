@@ -35,9 +35,12 @@ public class CloudUtil {
      * @throws Exception
      */
     public static String getLocalHost() throws Exception {
-        getLocalIp();
-        getPort();
-        initLocal();
+        if(localHost == null){
+            getLocalIp();
+            getPort();
+            getProtocol();
+            localHost = protocol+"://"+ip+":"+port;
+        }
         return localHost;
     }
 
@@ -66,24 +69,20 @@ public class CloudUtil {
     }
 
     /**
-     * 初始化local参数
+     * 初始化protocol
      * @throws Exception
      */
-    private static void initLocal() throws Exception {
+    public static void getProtocol() throws Exception {
         if(protocol == null){
             Object proto = CloudConfigUtil.getCloudConfig("protocol");
             if(proto == null){
                 protocol = "http";
-            } else {
+            } else if(proto.equals("http") || proto.equals("https")) {
                 protocol = proto.toString();
-            }
-            if(!protocol.equals("http") && !protocol.equals("https")){
+            } else {
                 protocol = null;
                 throw new Exception("Mars-cloud目前只支持http和https协议");
             }
-        }
-        if(localHost == null){
-            localHost = protocol+"://"+ip+":"+port;
         }
     }
 }

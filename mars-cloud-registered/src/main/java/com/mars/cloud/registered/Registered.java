@@ -4,7 +4,8 @@ import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZookeeperHelper;
 import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.util.CloudUtil;
-import com.mars.core.constant.EasySpace;
+import com.mars.core.constant.MarsConstant;
+import com.mars.core.constant.MarsSpace;
 import com.mars.mvc.resolve.model.EasyMappingModel;
 
 import java.util.Map;
@@ -16,7 +17,7 @@ public class Registered {
 
     private static ZookeeperHelper zookeeperHelper = new ZookeeperHelper();
 
-    private static EasySpace constants = EasySpace.getEasySpace();
+    private static MarsSpace constants = MarsSpace.getEasySpace();
 
     /**
      * 发布注册接口
@@ -61,7 +62,7 @@ public class Registered {
      */
     private static Map<String,EasyMappingModel> getControllers() {
         Map<String,EasyMappingModel> controlObjects = null;
-        Object obj = constants.getAttr("controlObjects");
+        Object obj = constants.getAttr(MarsConstant.CONTROLLER_OBJECTS);
         if(obj != null) {
             controlObjects = (Map<String,EasyMappingModel>)obj;
         }
