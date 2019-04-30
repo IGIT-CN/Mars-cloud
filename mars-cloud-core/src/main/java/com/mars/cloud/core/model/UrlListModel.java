@@ -1,4 +1,4 @@
-package com.mars.cloud.model;
+package com.mars.cloud.core.model;
 
 import java.util.List;
 import java.util.Random;

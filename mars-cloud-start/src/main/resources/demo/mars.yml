@@ -3,6 +3,8 @@ cloud:
   name: cloud-client1
   # 尽量长一点，防止接口过多来不及发布
   sessionTimeout: 10000
+  # 请求Mars-Cloud接口超时时间
+  timeOut: 10000
   # 负载均衡策略 1 轮询，2 随机（暂时只支持这两种）
   strategy: 1
   # zookeeper地址，多个地址用英文逗号分割

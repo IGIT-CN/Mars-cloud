@@ -5,11 +5,18 @@ import com.mars.core.util.SerializableUtil;
 import okhttp3.*;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * http请求工具类
  */
 public class CloudHttpUtil {
+
+    /**
+     * 超时时间
+     */
+    private static long timOut;
+
 
     /**
      * 发起请求，以序列化方式传递数据
@@ -23,7 +30,7 @@ public class CloudHttpUtil {
         /* 将参数序列化成byte[] */
         byte[] param = SerializableUtil.serialization(params);
 
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = getOkHttpClient();
 
         /* 发起post请求 将数据传递过去 */
         MediaType formData = MediaType.parse("multipart/form-data");
@@ -49,7 +56,7 @@ public class CloudHttpUtil {
      */
     public static String get(String strUrl, Map<String,Object> params) throws Exception {
         String url = strUrl+"?"+getParams(params);
-        OkHttpClient okHttpClient = new OkHttpClient();
+        OkHttpClient okHttpClient = getOkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -91,5 +98,32 @@ public class CloudHttpUtil {
             return "500";
         }
         return response.body().string();
+    }
+
+    /**
+     * 获取Okhttp客户端
+     * @return
+     * @throws Exception
+     */
+    private static OkHttpClient getOkHttpClient() throws Exception {
+        init();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(timOut, TimeUnit.SECONDS)//设置连接超时时间
+                .readTimeout(timOut, TimeUnit.SECONDS)//设置读取超时时间
+                .build();
+        return okHttpClient;
+    }
+
+    /**
+     * 初始化timeOut
+     * @throws Exception
+     */
+    private static void init() throws Exception {
+        Object obj = CloudConfigUtil.getCloudConfig("timeOut");
+        if(obj == null){
+            timOut = 10000;
+        } else {
+            timOut = Long.parseLong(obj.toString());
+        }
     }
 }

@@ -1,15 +1,17 @@
 package com.mars.cloud.registered;
 
 import com.mars.cloud.core.constant.CloudConstant;
-import com.mars.cloud.core.helper.ZookeeperHelper;
+import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.util.CloudUtil;
+import com.mars.cloud.listener.ApiListener;
 import com.mars.core.constant.MarsConstant;
 import com.mars.core.constant.MarsSpace;
 import com.mars.core.logger.MarsLogger;
 import com.mars.mvc.resolve.model.EasyMappingModel;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 注册接口
@@ -17,8 +19,6 @@ import java.util.Map;
 public class Registered {
 
     private static MarsLogger marsLogger = MarsLogger.getLogger(Registered.class);
-
-    private static ZookeeperHelper zookeeperHelper = new ZookeeperHelper();
 
     private static MarsSpace constants = MarsSpace.getEasySpace();
 
@@ -29,7 +29,7 @@ public class Registered {
     public static void register() throws Exception {
         try {
             /* 打开zookeeper连接 */
-            zookeeperHelper.openConnection();
+            ZkHelper.openConnection();
 
             /* 获取本服务的名称 */
             String serverName = CloudConfigUtil.getCloudName();
@@ -49,15 +49,18 @@ public class Registered {
                         .replace("{port}",port);
 
                 /* 将本服务的接口已写入zookeeper */
-                String url = CloudUtil.getLocalHost()+"/"+methodName;
-                zookeeperHelper.createNodes(node,url);
+                ZkHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
 
-                marsLogger.info("接口["+url+"]注册成功");
+                /* 取出类名，打印日志用的 */
+                EasyMappingModel easyMappingModel = maps.get(methodName);
+                String clsName = easyMappingModel.getCls().getName();
+
+                marsLogger.info("接口["+clsName+"->"+methodName+"]注册成功");
             }
+            /* 启动接口监听器，进行轮询 */
+            ApiListener.startListener();
         } catch (Exception e){
             throw new Exception("注册与发布接口失败",e);
-        } finally {
-            zookeeperHelper.closeConnection();
         }
     }
 

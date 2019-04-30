@@ -2,10 +2,10 @@ package com.mars.cloud.request;
 
 import com.mars.cloud.core.util.CloudHttpUtil;
 import com.mars.cloud.core.util.TypeConverUtil;
-import com.mars.cloud.model.UrlListModel;
-import com.mars.cloud.rest.LoadCloudApis;
+import com.mars.cloud.core.model.UrlListModel;
+import com.mars.cloud.core.load.LoadCloudApis;
 import com.mars.cloud.util.LoadBalancingUtil;
-import com.mars.cloud.util.ServerListUtil;
+import com.mars.cloud.core.load.LoadServerList;
 import com.mars.core.annotation.enums.RequestMetohd;
 
 /**
@@ -81,7 +81,7 @@ public class RestRequest {
         try {
             LoadCloudApis.loadServiceApis();
 
-            UrlListModel urlList = ServerListUtil.get(serverName+"-"+methodName);
+            UrlListModel urlList = LoadServerList.get(serverName+"-"+methodName);
 
             url = getUrl(urlList);
 
