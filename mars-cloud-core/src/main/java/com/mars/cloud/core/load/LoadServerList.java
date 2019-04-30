@@ -16,54 +16,66 @@ public class LoadServerList {
 
     /**
      * 是否有数据
+     *
      * @return
      */
-    public static boolean hasData(){
+    public static boolean hasData() {
         Object obj = constants.getAttr("serverList");
         return obj == null;
     }
 
     /**
      * 替换本地缓存
+     *
      * @param serverList
      */
-    public static void replace(Map<String, UrlListModel> serverList){
-        constants.setAttr("serverList",serverList);
+    public static void replace(Map<String, UrlListModel> serverList) {
+        constants.setAttr("serverList", serverList);
     }
 
     /**
      * 将接口缓存在本地
+     *
      * @param key
      * @param value
      */
-    public static void add(String key, UrlListModel value){
+    public static void add(String key, UrlListModel value) {
         Object obj = constants.getAttr("serverList");
-        Map<String, UrlListModel> serverList = (Map<String,UrlListModel>)obj;
+        Map<String, UrlListModel> serverList = (Map<String, UrlListModel>) obj;
 
-        if(serverList == null){
+        if (serverList == null) {
             serverList = new HashMap<>();
         }
-        serverList.put(key,value);
+        serverList.put(key, value);
 
-        constants.setAttr("serverList",serverList);
+        constants.setAttr("serverList", serverList);
     }
 
     /**
      * 获取服务接口列表
+     *
      * @param key 服务name + controller映射的value
      * @return
      */
-    public static UrlListModel get(String key){
-        return getAll().get(CloudConstant.BASE_SERVER_NODE+"/"+key);
+    public static UrlListModel get(String key) {
+        Map<String, UrlListModel> serverList = getAll();
+        if(serverList == null){
+            return null;
+        }
+        return serverList.get(CloudConstant.BASE_SERVER_NODE + "/" + key);
     }
 
     /**
      * 获取服务接口列表
+     *
      * @return
      */
-    public static Map<String,UrlListModel> getAll(){
+    public static Map<String, UrlListModel> getAll() {
         Object obj = constants.getAttr("serverList");
-        Map<String, UrlListModel> serverList = (Map<String,UrlListModel>)obj;
-        return serverList;
+        if (obj != null) {
+            Map<String, UrlListModel> serverList = (Map<String, UrlListModel>) obj;
+            return serverList;
+        }
+        return null;
     }
 }

@@ -64,7 +64,10 @@ public class LoadCloudApis {
 
                     if (!urls.isEmpty()) {
                         /* 将接口列表存入本地缓存 */
-                        UrlListModel urlListModel = new UrlListModel();
+                        UrlListModel urlListModel = LoadServerList.get(serverName);
+                        if(urlListModel == null){
+                            urlListModel = new UrlListModel();
+                        }
                         urlListModel.setUrls(urls);
                         urlListModelMap.put(path,urlListModel);
                     }
