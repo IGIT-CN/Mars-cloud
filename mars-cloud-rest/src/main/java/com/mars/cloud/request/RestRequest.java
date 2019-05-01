@@ -78,13 +78,14 @@ public class RestRequest {
      * @return
      * @throws Exception
      */
-    public static <T> T request(String serverName, String methodName, RequestMetohd metohd, Object params,Class<T> cls) throws Exception{
+    private static <T> T request(String serverName, String methodName, RequestMetohd metohd, Object params,Class<T> cls) throws Exception{
+        String url = "";
         try {
             LoadCloudApis.loadServiceApis();
 
             UrlListModel urlList = LoadServerList.get(serverName+"-"+methodName);
 
-            String url = getUrl(urlList);
+            url = getUrl(urlList);
 
             String result = null;
 
@@ -94,16 +95,11 @@ public class RestRequest {
                 result = CloudHttpUtil.request(url,TypeConverUtil.conver(params,metohd),"cloud");
             }
 
-            if(result.equals("500")){
-                throw new Exception("请求"+url+"失败");
-            }
-
             return TypeConverUtil.conver(result,cls);
         } catch (Exception e){
-            throw new Exception("发起请求出现异常",e);
+            throw new Exception("发起请求出现异常,url:["+url+"],",e);
         }
     }
-
 
     /**
      * 根据负载均衡策略，从集群中获取一个连接

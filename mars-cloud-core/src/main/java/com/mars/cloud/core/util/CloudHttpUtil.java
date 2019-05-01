@@ -94,10 +94,11 @@ public class CloudHttpUtil {
         Response response = call.execute();
 
         int code = response.code();
+        ResponseBody responseBody = response.body();
         if(code != 200){
-            return "500";
+            throw new Exception("请求接口出现异常:"+responseBody.string());
         }
-        return response.body().string();
+        return responseBody.string();
     }
 
     /**

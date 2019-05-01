@@ -2,7 +2,6 @@ package com.mars.cloud.core.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mars.core.annotation.enums.RequestMetohd;
-import com.mars.core.constant.MarsCloudConstant;
 import com.mars.core.enums.DataType;
 
 import java.lang.reflect.Field;
@@ -37,7 +36,7 @@ public class TypeConverUtil {
                 case DataType.LONG:
                 case DataType.SHORT:
                 case DataType.BOOLEAN:
-                    throw new Exception("基础类型与包装器类型，请统一用String.class");
+                    throw new Exception("不支持将返回数据转化成"+cls.getName()+"类型，请使用String.class或者其他对象");
                 case DataType.STRING:
                     return (T)val;
                 default:
