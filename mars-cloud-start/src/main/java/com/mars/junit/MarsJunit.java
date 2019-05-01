@@ -1,6 +1,7 @@
 package com.mars.junit;
 
 import com.mars.cloud.registered.Registered;
+import com.mars.mvc.resolve.LoadController;
 import com.mars.mybatis.init.InitJdbc;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public abstract class MarsJunit {
     class LoadCloud implements StartList {
         @Override
         public void load() throws Exception {
+            LoadController.loadContrl();
             Registered.register();
         }
     }
