@@ -8,6 +8,8 @@ import com.mars.cloud.util.LoadBalancingUtil;
 import com.mars.cloud.core.load.LoadServerList;
 import com.mars.core.annotation.enums.RequestMetohd;
 
+import java.util.Map;
+
 /**
  * 发起rest请求
  */
@@ -77,20 +79,19 @@ public class RestRequest {
      * @throws Exception
      */
     public static <T> T request(String serverName, String methodName, RequestMetohd metohd, Object params,Class<T> cls) throws Exception{
-        String url = "";
         try {
             LoadCloudApis.loadServiceApis();
 
             UrlListModel urlList = LoadServerList.get(serverName+"-"+methodName);
 
-            url = getUrl(urlList);
+            String url = getUrl(urlList);
 
             String result = null;
 
             if(metohd.equals(RequestMetohd.GET)){
-                result = CloudHttpUtil.get(url, TypeConverUtil.conver(params));
+                result = CloudHttpUtil.get(url, (Map<String,Object>)TypeConverUtil.conver(params,metohd));
             } else {
-                result = CloudHttpUtil.request(url,params,"cloud");
+                result = CloudHttpUtil.request(url,TypeConverUtil.conver(params,metohd),"cloud");
             }
 
             if(result.equals("500")){
@@ -99,7 +100,7 @@ public class RestRequest {
 
             return TypeConverUtil.conver(result,cls);
         } catch (Exception e){
-            throw new Exception("请求"+url+"失败",e);
+            throw new Exception("发起请求出现异常",e);
         }
     }
 
@@ -109,7 +110,10 @@ public class RestRequest {
      * @param urlList
      * @return
      */
-    private static String getUrl(UrlListModel urlList) {
+    private static String getUrl(UrlListModel urlList) throws NullPointerException {
+        if(urlList == null || urlList.getUrls() == null || urlList.getUrls().size() < 1){
+            throw new NullPointerException("请求地址不正确，请检查serverName和methodName后再尝试");
+        }
         return LoadBalancingUtil.getUrl(urlList);
     }
 }
