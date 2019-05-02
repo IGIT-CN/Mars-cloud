@@ -49,7 +49,7 @@ public class TypeConverUtil {
     }
 
     /**
-     * 转化成Map
+     * 根据请求方式，返回转化后的数据
      * @param obj
      * @return
      * @throws Exception

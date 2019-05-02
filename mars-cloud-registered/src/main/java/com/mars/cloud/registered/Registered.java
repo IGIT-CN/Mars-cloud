@@ -8,10 +8,9 @@ import com.mars.cloud.listener.ApiListener;
 import com.mars.core.constant.MarsConstant;
 import com.mars.core.constant.MarsSpace;
 import com.mars.core.logger.MarsLogger;
-import com.mars.mvc.resolve.model.EasyMappingModel;
+import com.mars.mvc.model.MarsMappingModel;
 
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 注册接口
@@ -39,7 +38,7 @@ public class Registered {
             String port = CloudUtil.getPort();
 
             /* 将本服务的接口发布注册到zookeeper */
-            Map<String,EasyMappingModel> maps = getControllers();
+            Map<String, MarsMappingModel> maps = getControllers();
             for(String methodName : maps.keySet()){
 
                 String node = CloudConstant.API_SERVER_NODE
@@ -52,8 +51,8 @@ public class Registered {
                 ZkHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
 
                 /* 取出类名，打印日志用的 */
-                EasyMappingModel easyMappingModel = maps.get(methodName);
-                String clsName = easyMappingModel.getCls().getName();
+                MarsMappingModel marsMappingModel = maps.get(methodName);
+                String clsName = marsMappingModel.getCls().getName();
 
                 marsLogger.info("接口["+clsName+"->"+methodName+"]注册成功");
             }
@@ -68,11 +67,11 @@ public class Registered {
      * 获取所有的controller对象
      * @return duix
      */
-    private static Map<String,EasyMappingModel> getControllers() {
-        Map<String,EasyMappingModel> controlObjects = null;
+    private static Map<String,MarsMappingModel> getControllers() {
+        Map<String,MarsMappingModel> controlObjects = null;
         Object obj = constants.getAttr(MarsConstant.CONTROLLER_OBJECTS);
         if(obj != null) {
-            controlObjects = (Map<String,EasyMappingModel>)obj;
+            controlObjects = (Map<String,MarsMappingModel>)obj;
         }
         return controlObjects;
     }

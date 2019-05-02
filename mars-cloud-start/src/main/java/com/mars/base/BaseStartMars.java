@@ -10,7 +10,8 @@ import com.mars.core.logger.MarsLogger;
 import com.mars.core.util.ConfigUtil;
 import com.mars.ioc.load.LoadEasyBean;
 import com.mars.jdbc.base.BaseInitJdbc;
-import com.mars.mvc.resolve.LoadController;
+import com.mars.mvc.load.LoadController;
+import com.mars.mvc.load.LoadInters;
 import com.mars.mvc.servlet.EasyCoreServlet;
 import com.mars.netty.server.EasyServer;
 
@@ -89,6 +90,8 @@ public class BaseStartMars {
         /* 创建controller对象 */
         LoadController.loadContrl();
 
+        /* 创建interceptor对象 */
+        LoadInters.loadIntersList();
     }
 
     /**

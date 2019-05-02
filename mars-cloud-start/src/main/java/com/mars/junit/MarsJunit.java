@@ -1,7 +1,7 @@
 package com.mars.junit;
 
 import com.mars.cloud.registered.Registered;
-import com.mars.mvc.resolve.LoadController;
+import com.mars.mvc.load.LoadController;
 import com.mars.mybatis.init.InitJdbc;
 
 import java.util.ArrayList;
