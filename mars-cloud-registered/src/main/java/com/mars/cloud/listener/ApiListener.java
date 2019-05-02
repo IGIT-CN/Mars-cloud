@@ -5,7 +5,6 @@ import com.mars.cloud.core.model.UrlListModel;
 import com.mars.cloud.core.load.LoadServerList;
 import com.mars.core.logger.MarsLogger;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,7 +34,7 @@ public class ApiListener {
          * 而之前引用的对象将会因为没有变量引用它，而被回收
          *
          * 如果写在run里面，run里面是个死循环，这个方法永远不会执行结束
-         * 所以栈帧一直存在，导致里面局部变量一直存在，创建的对象一直被引用这而不会被回收
+         * 所以栈帧一直存在，导致里面局部变量一直存在，创建的对象一直被引用着，而不会被回收
          *
          * 以上都是我猜的，为了安全起见
          */
@@ -53,6 +52,7 @@ public class ApiListener {
                         }
                     }
                 } catch (Exception e){
+                    marsLogger.error("刷新本地缓存失败，即将重试刷新",e);
                     continue;
                 }
             }

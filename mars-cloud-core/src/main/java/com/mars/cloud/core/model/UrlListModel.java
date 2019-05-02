@@ -24,7 +24,7 @@ public class UrlListModel {
      * 轮询算法
      * @return
      */
-    public int getIndex() {
+    public int getPollIndex() {
         if(index > (urls.size() - 1)){
             index = 0;
         }
@@ -38,7 +38,7 @@ public class UrlListModel {
     public int getRandomIndex() {
         int index = 0;
         if(urls.size() > 1){
-            index = random.nextInt(urls.size() - 1);
+            index = random.nextInt(urls.size());
         }
 
         if(index < 0){

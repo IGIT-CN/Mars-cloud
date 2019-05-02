@@ -45,7 +45,7 @@ public class LoadBalancingUtil {
      */
     private static String poll(UrlListModel urlListModel){
         List<String> urls = urlListModel.getUrls();
-        return urls.get(urlListModel.getIndex());
+        return urls.get(urlListModel.getPollIndex());
     }
 
     /**

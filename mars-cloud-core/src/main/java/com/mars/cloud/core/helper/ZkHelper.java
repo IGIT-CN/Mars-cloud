@@ -22,6 +22,11 @@ public class ZkHelper {
     private static ZkClient zkClient;
 
     /**
+     * zookeeper连接
+     */
+    private static ZkConnection zkConnection;
+
+    /**
      * session超时时间
      */
     private static int sessionTimeout = 100000;
@@ -58,9 +63,9 @@ public class ZkHelper {
                 init();
             }
 
-            if(zkClient == null ){
-                ZkConnection zkConnection = new ZkConnection(registeds,sessionTimeout);
-                zkClient = new ZkClient(zkConnection,30000);
+            if (zkConnection == null || !zkConnection.getZookeeperState().isConnected()) {
+                zkConnection = new ZkConnection(registeds, sessionTimeout);
+                zkClient = new ZkClient(zkConnection, 30000);
                 marsLogger.info("连接zookeeper成功");
             }
         } catch (Exception e) {
@@ -75,9 +80,8 @@ public class ZkHelper {
      * @param path
      * @param data
      * @return
-     * @throws Exception
      */
-    public static String createNodes(String path, String data) throws Exception {
+    public static String createNodes(String path, String data) {
         String[] pa = path.split("/");
         StringBuffer pat = new StringBuffer();
         for(int i=1;i<pa.length;i++){
@@ -98,9 +102,8 @@ public class ZkHelper {
      * @param path
      * @param data
      * @return
-     * @throws Exception
      */
-    public static String createNode(String path, String data,CreateMode createMode) throws Exception {
+    public static String createNode(String path, String data,CreateMode createMode) {
         boolean stat = zkClient.exists(path);
         if (!stat) {
             return zkClient.create(path, data, ZooDefs.Ids.OPEN_ACL_UNSAFE,createMode);
@@ -115,8 +118,6 @@ public class ZkHelper {
      *
      * @param path
      * @return
-     * @throws KeeperException
-     * @throws InterruptedException
      */
     public static List<String> getChildren(String path) {
         List<String> children = zkClient.getChildren(path);
@@ -128,8 +129,6 @@ public class ZkHelper {
      *
      * @param path
      * @return
-     * @throws KeeperException
-     * @throws InterruptedException
      */
     public static String getData(String path) {
         boolean stat = zkClient.exists(path);
@@ -146,10 +145,8 @@ public class ZkHelper {
      * @param path
      * @param data
      * @return
-     * @throws KeeperException
-     * @throws InterruptedException
      */
-    public static void setData(String path, String data) throws KeeperException, InterruptedException {
+    public static void setData(String path, String data) {
         if (zkClient.exists(path)) {
             zkClient.writeData(path, data,-1);
         }
@@ -159,10 +156,8 @@ public class ZkHelper {
      * 删除节点
      *
      * @param path
-     * @throws InterruptedException
-     * @throws KeeperException
      */
-    public static void deleteNode(String path) throws InterruptedException, KeeperException {
+    public static void deleteNode(String path) {
         if (zkClient.exists(path)) {
             zkClient.delete(path, -1);
         }
@@ -172,9 +167,8 @@ public class ZkHelper {
      * 节点是否存在
      * @param path
      * @return
-     * @throws Exception
      */
-    public static boolean exists(String path) throws Exception {
+    public static boolean exists(String path) {
         return zkClient.exists(path);
     }
 
@@ -183,19 +177,16 @@ public class ZkHelper {
      *
      * @param path
      * @return
-     * @throws KeeperException
-     * @throws InterruptedException
      */
-    public static Integer getChildrenNum(String path) throws KeeperException, InterruptedException {
+    public static Integer getChildrenNum(String path) {
         return zkClient.getChildren(path).size();
     }
 
     /**
      * 关闭连接
      *
-     * @throws InterruptedException
      */
-    public static void closeConnection() throws InterruptedException {
+    public static void closeConnection() {
         if (zkClient != null) {
             zkClient.close();
         }

@@ -62,12 +62,14 @@ public class LoadCloudApis {
                         urls.add(data);
                     }
 
+                    /* 将接口列表存入本地缓存 */
                     if (!urls.isEmpty()) {
-                        /* 将接口列表存入本地缓存 */
+                        /* 先取原有对象，为了保持轮询 */
                         UrlListModel urlListModel = LoadServerList.get(serverName);
                         if(urlListModel == null){
                             urlListModel = new UrlListModel();
                         }
+                        /* 只更新接口列表，不更新轮询下标 */
                         urlListModel.setUrls(urls);
                         urlListModelMap.put(path,urlListModel);
                     }
@@ -75,7 +77,6 @@ public class LoadCloudApis {
             }
             return urlListModelMap;
         } catch (Exception e){
-            marsLogger.error("从注册中心读取接口失败.............",e);
             throw new Exception("从注册中心读取接口失败",e);
         }
     }
