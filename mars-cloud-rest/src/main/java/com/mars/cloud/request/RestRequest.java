@@ -83,7 +83,7 @@ public class RestRequest {
         try {
             LoadCloudApis.loadServiceApis();
 
-            UrlListModel urlList = LoadServerList.get(serverName+"-"+methodName);
+            UrlListModel urlList = LoadServerList.get(serverName+"->"+methodName);
 
             url = getUrl(urlList);
 

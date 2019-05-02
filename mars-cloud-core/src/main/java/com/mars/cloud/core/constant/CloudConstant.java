@@ -13,7 +13,7 @@ public class CloudConstant {
     /**
      * 存储api接口的serverName目录
      */
-    public static final String SERVER_NODE = BASE_SERVER_NODE + "/{serverName}-{method}";
+    public static final String SERVER_NODE = BASE_SERVER_NODE + "/{serverName}->{method}";
 
     /**
      * 存储api接口的节点
