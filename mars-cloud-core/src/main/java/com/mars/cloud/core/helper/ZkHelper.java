@@ -2,12 +2,13 @@ package com.mars.cloud.core.helper;
 
 import com.alibaba.fastjson.JSONObject;
 import com.mars.cloud.core.util.CloudConfigUtil;
+import com.mars.cloud.core.watcher.ZkWatcher;
 import com.mars.core.logger.MarsLogger;
-import org.I0Itec.zkclient.ZkClient;
-import org.I0Itec.zkclient.ZkConnection;
 import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.Stat;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * zookeeper帮助类
@@ -17,14 +18,9 @@ public class ZkHelper {
     private static MarsLogger marsLogger = MarsLogger.getLogger(ZkHelper.class);
 
     /**
-     * zookeeper对象
+     * zk对象
      */
-    private static ZkClient zkClient;
-
-    /**
-     * zookeeper连接
-     */
-    private static ZkConnection zkConnection;
+    private static ZooKeeper zooKeeper;
 
     /**
      * session超时时间
@@ -36,6 +32,7 @@ public class ZkHelper {
      */
     private static String registeds;
 
+    private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
     /**
      * 初始化
@@ -49,6 +46,9 @@ public class ZkHelper {
         Object configTimeOut = config.get("sessionTimeout");
         if (configTimeOut != null) {
             sessionTimeout = Integer.parseInt(configTimeOut.toString());
+            if(sessionTimeout <= 30000){
+                sessionTimeout = 30000;
+            }
         }
     }
 
@@ -63,16 +63,15 @@ public class ZkHelper {
                 init();
             }
 
-            if (zkConnection == null || !zkConnection.getZookeeperState().isConnected()) {
-                zkConnection = new ZkConnection(registeds, sessionTimeout);
-                zkClient = new ZkClient(zkConnection, 30000);
+            if (zooKeeper == null || !zooKeeper.getState().isConnected()) {
+                zooKeeper = new ZooKeeper(registeds,sessionTimeout,new ZkWatcher(countDownLatch));
+                countDownLatch.await();
                 marsLogger.info("连接zookeeper成功");
             }
         } catch (Exception e) {
             throw new Exception("连接zookeeper失败", e);
         }
     }
-
 
     /**
      * 创建节点
@@ -81,7 +80,7 @@ public class ZkHelper {
      * @param data
      * @return
      */
-    public static String createNodes(String path, String data) {
+    public static String createNodes(String path, String data) throws Exception {
         String[] pa = path.split("/");
         StringBuffer pat = new StringBuffer();
         for(int i=1;i<pa.length;i++){
@@ -103,10 +102,10 @@ public class ZkHelper {
      * @param data
      * @return
      */
-    public static String createNode(String path, String data,CreateMode createMode) {
-        boolean stat = zkClient.exists(path);
-        if (!stat) {
-            return zkClient.create(path, data, ZooDefs.Ids.OPEN_ACL_UNSAFE,createMode);
+    public static String createNode(String path, String data,CreateMode createMode) throws Exception {
+        Stat stat = zooKeeper.exists(path,true);
+        if (stat == null) {
+            return zooKeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,createMode);
         } else {
             setData(path, data);
             return "ok";
@@ -119,8 +118,8 @@ public class ZkHelper {
      * @param path
      * @return
      */
-    public static List<String> getChildren(String path) {
-        List<String> children = zkClient.getChildren(path);
+    public static List<String> getChildren(String path) throws Exception {
+        List<String> children = zooKeeper.getChildren(path,true);
         return children;
     }
 
@@ -130,11 +129,13 @@ public class ZkHelper {
      * @param path
      * @return
      */
-    public static String getData(String path) {
-        boolean stat = zkClient.exists(path);
-        if (stat) {
-            String data = zkClient.readData(path);
-            return data;
+    public static String getData(String path) throws Exception {
+        Stat stat = zooKeeper.exists(path,true);
+        if (stat != null) {
+            byte[] data = zooKeeper.getData(path,true,stat);
+            if(data != null){
+                return new String(data);
+            }
         }
         return null;
     }
@@ -146,9 +147,9 @@ public class ZkHelper {
      * @param data
      * @return
      */
-    public static void setData(String path, String data) {
-        if (zkClient.exists(path)) {
-            zkClient.writeData(path, data,-1);
+    public static void setData(String path, String data) throws Exception {
+        if (zooKeeper.exists(path,true) != null) {
+            zooKeeper.setData(path, data.getBytes(),-1);
         }
     }
 
@@ -157,9 +158,9 @@ public class ZkHelper {
      *
      * @param path
      */
-    public static void deleteNode(String path) {
-        if (zkClient.exists(path)) {
-            zkClient.delete(path, -1);
+    public static void deleteNode(String path) throws Exception {
+        if (zooKeeper.exists(path,true) != null) {
+            zooKeeper.delete(path, -1);
         }
     }
 
@@ -168,8 +169,8 @@ public class ZkHelper {
      * @param path
      * @return
      */
-    public static boolean exists(String path) {
-        return zkClient.exists(path);
+    public static boolean exists(String path) throws Exception {
+        return zooKeeper.exists(path,true) == null;
     }
 
     /**
@@ -178,17 +179,18 @@ public class ZkHelper {
      * @param path
      * @return
      */
-    public static Integer getChildrenNum(String path) {
-        return zkClient.getChildren(path).size();
+    public static Integer getChildrenNum(String path) throws Exception {
+        return zooKeeper.getChildren(path,true).size();
     }
 
     /**
      * 关闭连接
      *
      */
-    public static void closeConnection() {
-        if (zkClient != null) {
-            zkClient.close();
+    public static void closeConnection() throws Exception {
+        if (zooKeeper != null) {
+            zooKeeper.close();
+            zooKeeper = null;
         }
     }
 }
