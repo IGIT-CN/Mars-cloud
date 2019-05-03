@@ -1,8 +1,10 @@
 package com.mars.cloud.listener;
 
+import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.load.LoadCloudApis;
 import com.mars.cloud.core.model.UrlListModel;
 import com.mars.cloud.core.load.LoadServerList;
+import com.mars.cloud.registered.Registered;
 import com.mars.core.logger.MarsLogger;
 
 import java.util.Map;
@@ -21,7 +23,6 @@ public class ApiListener {
         ApiListener apiListener = new ApiListener();
         apiListener.new Listener().start();
     }
-
 
     /**
      * 轮询监听，每隔10秒更新一下本地接口缓存
@@ -46,6 +47,13 @@ public class ApiListener {
                 try {
                     synchronized (this) {
                         wait(10000);
+                        /* 检查是否处于连接状态 */
+                        boolean result = ZkHelper.hasConnection();
+                        if(!result){
+                            /* 不是连接状态，那就重新注册接口 */
+                            Registered.register(1);
+                        }
+                        /* 从zk更新接口到本地 */
                         urlListModelMap = LoadCloudApis.init();
                         if(urlListModelMap != null){
                             LoadServerList.replace(urlListModelMap);

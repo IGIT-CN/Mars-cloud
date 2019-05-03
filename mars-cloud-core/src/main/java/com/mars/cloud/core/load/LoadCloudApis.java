@@ -3,7 +3,6 @@ package com.mars.cloud.core.load;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.model.UrlListModel;
-import com.mars.core.logger.MarsLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +13,6 @@ import java.util.Map;
  * 读取注册中心的服务
  */
 public class LoadCloudApis {
-
-    private static MarsLogger marsLogger = MarsLogger.getLogger(LoadCloudApis.class);
 
     /**
      * 读取注册中心的服务

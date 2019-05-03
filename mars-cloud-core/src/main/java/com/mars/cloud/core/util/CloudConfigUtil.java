@@ -39,19 +39,6 @@ public class CloudConfigUtil {
     }
 
     /**
-     * 获取cloud配置文件中的register
-     * @return
-     * @throws Exception
-     */
-    public static String getCloudRegister() throws Exception {
-        try {
-            return getCloudConfig("register").toString();
-        } catch (Exception e){
-            throw new Exception("获取cloud配置中的register失败",e);
-        }
-    }
-
-    /**
      * 获取cloud配置文件中的服务name
      * @return
      * @throws Exception

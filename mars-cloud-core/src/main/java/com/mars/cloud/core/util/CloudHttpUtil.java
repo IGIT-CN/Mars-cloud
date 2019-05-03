@@ -102,7 +102,7 @@ public class CloudHttpUtil {
     }
 
     /**
-     * 获取Okhttp客户端
+     * 获取okHttp客户端
      * @return
      * @throws Exception
      */

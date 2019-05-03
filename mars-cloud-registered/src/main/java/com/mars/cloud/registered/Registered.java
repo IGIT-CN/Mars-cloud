@@ -23,9 +23,11 @@ public class Registered {
 
     /**
      * 发布注册接口
+     *
+     * @param state 0 第一次注册，1 离线后重新注册
      * @throws Exception
      */
-    public static void register() throws Exception {
+    public static void register(int state) throws Exception {
         try {
             /* 打开zookeeper连接 */
             ZkHelper.openConnection();
@@ -49,15 +51,11 @@ public class Registered {
 
                 /* 将本服务的接口已写入zookeeper */
                 ZkHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
-
-                /* 取出类名，打印日志用的 */
-                MarsMappingModel marsMappingModel = maps.get(methodName);
-                String clsName = marsMappingModel.getCls().getName();
-
-                marsLogger.info("接口["+clsName+"->"+methodName+"]注册成功");
             }
-            /* 启动接口监听器，进行轮询 */
-            ApiListener.startListener();
+            if(state == 0){
+                /* 如果是第一次注册，就启动接口监听器，进行轮询 */
+                ApiListener.startListener();
+            }
         } catch (Exception e){
             throw new Exception("注册与发布接口失败",e);
         }
@@ -65,7 +63,7 @@ public class Registered {
 
     /**
      * 获取所有的controller对象
-     * @return duix
+     * @return 所有的controller对象
      */
     private static Map<String,MarsMappingModel> getControllers() {
         Map<String,MarsMappingModel> controlObjects = null;

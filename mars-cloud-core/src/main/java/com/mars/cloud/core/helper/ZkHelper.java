@@ -32,7 +32,7 @@ public class ZkHelper {
      */
     private static String registeds;
 
-    private static CountDownLatch countDownLatch = new CountDownLatch(1);
+    private static CountDownLatch countDownLatch;
 
     /**
      * 初始化
@@ -63,7 +63,8 @@ public class ZkHelper {
                 init();
             }
 
-            if (zooKeeper == null || !zooKeeper.getState().isConnected()) {
+            if (!hasConnection()) {
+                countDownLatch = new CountDownLatch(1);
                 zooKeeper = new ZooKeeper(registeds,sessionTimeout,new ZkWatcher(countDownLatch));
                 countDownLatch.await();
                 marsLogger.info("连接zookeeper成功");
@@ -71,6 +72,19 @@ public class ZkHelper {
         } catch (Exception e) {
             throw new Exception("连接zookeeper失败", e);
         }
+    }
+
+    /**
+     * 是否处于连接状态
+     *
+     * @return false 没有连接，true 已连接
+     * @return
+     */
+    public static boolean hasConnection(){
+        if(zooKeeper != null && zooKeeper.getState().isConnected()){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -188,8 +202,13 @@ public class ZkHelper {
      *
      */
     public static void closeConnection() throws Exception {
-        if (zooKeeper != null) {
-            zooKeeper.close();
+        try {
+            if (zooKeeper != null) {
+                zooKeeper.close();
+            }
+        } catch (Exception e){
+            throw e;
+        } finally {
             zooKeeper = null;
         }
     }

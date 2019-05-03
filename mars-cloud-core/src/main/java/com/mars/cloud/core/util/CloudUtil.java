@@ -1,7 +1,6 @@
 package com.mars.cloud.core.util;
 
-import com.mars.core.util.ConfigUtil;
-import com.mars.core.util.MarsUtil;
+import com.mars.core.util.MarsAddressUtil;
 
 /**
  * 工具类
@@ -24,13 +23,12 @@ public class CloudUtil {
     private static String protocol;
 
     /**
-     * 本机接口的完整请求后缀
+     * 本机接口的完整请求前缀
      */
     private static String localHost;
 
-
     /**
-     * 获取本机接口的完整请求后缀
+     * 获取本机接口的完整请求前缀
      * @return
      * @throws Exception
      */
@@ -50,9 +48,7 @@ public class CloudUtil {
      * @throws Exception
      */
     public static String getLocalIp() throws Exception {
-        if(ip == null){
-            ip = MarsUtil.getLocalHostLANAddress().getHostAddress();
-        }
+        ip = MarsAddressUtil.getLocalIp();
         return ip;
     }
 
@@ -62,9 +58,7 @@ public class CloudUtil {
      * @throws Exception
      */
     public static String getPort() {
-        if(port == null){
-            port = ConfigUtil.getConfig().getString("port");
-        }
+        port = MarsAddressUtil.getPort();
         return port;
     }
 

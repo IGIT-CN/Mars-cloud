@@ -98,7 +98,7 @@ public class BaseStartMars {
      * 加载cloud需要的数据
      */
     private static void initCloud() throws Exception {
-        Registered.register();
+        Registered.register(0);
     }
 
     /**
