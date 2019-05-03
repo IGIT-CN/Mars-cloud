@@ -25,7 +25,7 @@ public class CloudHttpUtil {
      * @return
      * @throws Exception
      */
-    public static String request(String url, Object params,String requestType) throws Exception {
+    public static String request(String url, Object params) throws Exception {
 
         /* 将参数序列化成byte[] */
         byte[] param = SerializableUtil.serialization(params);
@@ -38,7 +38,7 @@ public class CloudHttpUtil {
         MultipartBody body = new MultipartBody.Builder()
                 .setType(formData)
                 .addFormDataPart(MarsCloudConstant.PARAM,"params",fileBody)
-                .addFormDataPart(MarsCloudConstant.REQUEST_TYPE,requestType)
+                .addFormDataPart(MarsCloudConstant.REQUEST_TYPE,MarsCloudConstant.REQUEST_TYPE)
                 .build();
         Request request = new Request.Builder()
                 .post(body)

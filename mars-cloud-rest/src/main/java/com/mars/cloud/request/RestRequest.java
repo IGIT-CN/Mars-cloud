@@ -92,7 +92,7 @@ public class RestRequest {
             if(metohd.equals(RequestMetohd.GET)){
                 result = CloudHttpUtil.get(url, (Map<String,Object>)TypeConverUtil.conver(params,metohd));
             } else {
-                result = CloudHttpUtil.request(url,TypeConverUtil.conver(params,metohd),"cloud");
+                result = CloudHttpUtil.request(url,TypeConverUtil.conver(params,metohd));
             }
 
             return TypeConverUtil.conver(result,cls);
