@@ -54,7 +54,7 @@ public class ZkWatcher implements Watcher {
                 }
             }
         } catch (Exception e){
-
+            marsLogger.error("",e);
         }
     }
 }
