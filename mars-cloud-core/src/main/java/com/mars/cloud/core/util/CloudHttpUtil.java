@@ -20,10 +20,10 @@ public class CloudHttpUtil {
 
     /**
      * 发起请求，以序列化方式传递数据
-     * @param url
-     * @param params
-     * @return
-     * @throws Exception
+     * @param url 路径
+     * @param params 参数
+     * @return 结果
+     * @throws Exception 异常
      */
     public static String request(String url, Object params) throws Exception {
 
@@ -53,6 +53,7 @@ public class CloudHttpUtil {
      * @param strUrl 链接
      * @param params 参数
      * @return 响应结果
+     * @throws Exception 异常
      */
     public static String get(String strUrl, Map<String,Object> params) throws Exception {
         String url = strUrl+"?"+getParams(params);
@@ -66,8 +67,8 @@ public class CloudHttpUtil {
 
     /**
      * 组装参数
-     * @param params
-     * @return
+     * @param params 参数
+     * @return 结果
      */
     private static String getParams(Map<String,Object> params){
         StringBuffer stringBuffer = new StringBuffer();
@@ -84,10 +85,10 @@ public class CloudHttpUtil {
 
     /**
      * 开始请求
-     * @param okHttpClient
-     * @param request
-     * @return
-     * @throws Exception
+     * @param okHttpClient 客户端
+     * @param request 请求
+     * @return 结果
+     * @throws Exception 异常
      */
     private static String okCall(OkHttpClient okHttpClient,Request request) throws Exception {
         Call call = okHttpClient.newCall(request);
@@ -103,8 +104,8 @@ public class CloudHttpUtil {
 
     /**
      * 获取okHttp客户端
-     * @return
-     * @throws Exception
+     * @return 客户端
+     * @throws Exception 异常
      */
     private static OkHttpClient getOkHttpClient() throws Exception {
         init();
@@ -117,7 +118,7 @@ public class CloudHttpUtil {
 
     /**
      * 初始化timeOut
-     * @throws Exception
+     * @throws Exception 异常
      */
     private static void init() throws Exception {
         Object obj = CloudConfigUtil.getCloudConfig("timeOut");

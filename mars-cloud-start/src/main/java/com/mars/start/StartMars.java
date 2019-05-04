@@ -12,7 +12,7 @@ public class StartMars {
 
 	/**
 	 * 启动Mars框架
-	 * @param clazz
+	 * @param clazz 类
 	 */
 	public static void start(Class<?> clazz) {
 		BaseStartMars.start(clazz,new InitJdbc());

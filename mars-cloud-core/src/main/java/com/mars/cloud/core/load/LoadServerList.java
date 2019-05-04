@@ -17,7 +17,7 @@ public class LoadServerList {
     /**
      * 是否有数据
      *
-     * @return
+     * @return 结果
      */
     public static boolean hasData() {
         Object obj = constants.getAttr("serverList");
@@ -27,7 +27,7 @@ public class LoadServerList {
     /**
      * 替换本地缓存
      *
-     * @param serverList
+     * @param serverList 接口列表
      */
     public static void replace(Map<String, UrlListModel> serverList) {
         constants.setAttr("serverList", serverList);
@@ -36,8 +36,8 @@ public class LoadServerList {
     /**
      * 将接口缓存在本地
      *
-     * @param key
-     * @param value
+     * @param key key
+     * @param value value
      */
     public static void add(String key, UrlListModel value) {
         Object obj = constants.getAttr("serverList");
@@ -55,7 +55,7 @@ public class LoadServerList {
      * 获取服务接口列表
      *
      * @param key 服务name + controller映射的value
-     * @return
+     * @return 结果
      */
     public static UrlListModel get(String key) {
         Map<String, UrlListModel> serverList = getAll();
@@ -68,7 +68,7 @@ public class LoadServerList {
     /**
      * 获取服务接口列表
      *
-     * @return
+     * @return 结果
      */
     public static Map<String, UrlListModel> getAll() {
         Object obj = constants.getAttr("serverList");

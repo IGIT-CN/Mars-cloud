@@ -16,7 +16,7 @@ public class LoadCloudApis {
 
     /**
      * 读取注册中心的服务
-     * @throws Exception
+     * @throws Exception 异常
      */
     public static void loadServiceApis() throws Exception {
         if (LoadServerList.hasData()){
@@ -27,7 +27,8 @@ public class LoadCloudApis {
 
     /**
      * 加载数据
-     * @throws Exception
+     * @return 结果
+     * @throws Exception 异常
      */
     public static Map<String,UrlListModel> init() throws Exception {
         try {

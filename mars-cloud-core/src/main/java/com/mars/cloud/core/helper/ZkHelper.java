@@ -37,7 +37,7 @@ public class ZkHelper {
     /**
      * 初始化
      *
-     * @throws Exception
+     * @throws Exception 异常
      */
     private static void init() throws Exception {
         JSONObject config = CloudConfigUtil.getCloudConfig();
@@ -55,7 +55,7 @@ public class ZkHelper {
     /**
      * 打开连接
      *
-     * @throws Exception
+     * @throws Exception 异常
      */
     public static void openConnection() throws Exception {
         try {
@@ -78,7 +78,6 @@ public class ZkHelper {
      * 是否处于连接状态
      *
      * @return false 没有连接，true 已连接
-     * @return
      */
     public static boolean hasConnection(){
         if(zooKeeper != null && zooKeeper.getState().isConnected()){
@@ -90,9 +89,10 @@ public class ZkHelper {
     /**
      * 创建节点
      *
-     * @param path
-     * @param data
-     * @return
+     * @param path 路径
+     * @param data 数据
+     * @return 结果
+     * @throws Exception 异常
      */
     public static String createNodes(String path, String data) throws Exception {
         String[] pa = path.split("/");
@@ -112,9 +112,10 @@ public class ZkHelper {
     /**
      * 创建节点
      *
-     * @param path
-     * @param data
-     * @return
+     * @param path 路径
+     * @param data 数据
+     * @return 结果
+     * @throws Exception 异常
      */
     public static String createNode(String path, String data,CreateMode createMode) throws Exception {
         Stat stat = zooKeeper.exists(path,true);
@@ -130,8 +131,9 @@ public class ZkHelper {
     /**
      * 获取路径下所有子节点
      *
-     * @param path
-     * @return
+     * @param path 路径
+     * @return 结果
+     * @throws Exception 异常
      */
     public static List<String> getChildren(String path) throws Exception {
         List<String> children = zooKeeper.getChildren(path,true);
@@ -141,8 +143,9 @@ public class ZkHelper {
     /**
      * 获取节点上面的数据
      *
-     * @param path
-     * @return
+     * @param path 路径
+     * @return 结果
+     * @throws Exception 异常
      */
     public static String getData(String path) throws Exception {
         Stat stat = zooKeeper.exists(path,true);
@@ -158,9 +161,9 @@ public class ZkHelper {
     /**
      * 设置节点信息
      *
-     * @param path
-     * @param data
-     * @return
+     * @param path 路径
+     * @param data 数据
+     * @throws Exception 异常
      */
     public static void setData(String path, String data) throws Exception {
         if (zooKeeper.exists(path,true) != null) {
@@ -171,7 +174,8 @@ public class ZkHelper {
     /**
      * 删除节点
      *
-     * @param path
+     * @param path 路径
+     * @throws Exception 异常
      */
     public static void deleteNode(String path) throws Exception {
         if (zooKeeper.exists(path,true) != null) {
@@ -181,8 +185,9 @@ public class ZkHelper {
 
     /**
      * 节点是否存在
-     * @param path
-     * @return
+     * @param path 路径
+     * @return 结果
+     * @throws Exception 异常
      */
     public static boolean exists(String path) throws Exception {
         return zooKeeper.exists(path,true) == null;
@@ -191,8 +196,9 @@ public class ZkHelper {
     /**
      * 获取某个路径下孩子的数量
      *
-     * @param path
-     * @return
+     * @param path 路径
+     * @return 结果
+     * @throws Exception 异常
      */
     public static Integer getChildrenNum(String path) throws Exception {
         return zooKeeper.getChildren(path,true).size();
@@ -200,7 +206,7 @@ public class ZkHelper {
 
     /**
      * 关闭连接
-     *
+     * @throws Exception 异常
      */
     public static void closeConnection() throws Exception {
         try {

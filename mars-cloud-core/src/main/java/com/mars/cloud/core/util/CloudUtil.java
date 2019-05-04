@@ -29,8 +29,8 @@ public class CloudUtil {
 
     /**
      * 获取本机接口的完整请求前缀
-     * @return
-     * @throws Exception
+     * @return localhost
+     * @throws Exception 异常
      */
     public static String getLocalHost() throws Exception {
         if(localHost == null){
@@ -44,8 +44,8 @@ public class CloudUtil {
 
     /**
      * 获取本机在局域网的IP
-     * @return
-     * @throws Exception
+     * @return ip
+     * @throws Exception 异常
      */
     public static String getLocalIp() throws Exception {
         ip = MarsAddressUtil.getLocalIp();
@@ -54,8 +54,7 @@ public class CloudUtil {
 
     /**
      * 获取端口号
-     * @return
-     * @throws Exception
+     * @return 端口号
      */
     public static String getPort() {
         port = MarsAddressUtil.getPort();
@@ -64,7 +63,7 @@ public class CloudUtil {
 
     /**
      * 初始化protocol
-     * @throws Exception
+     * @throws Exception 异常
      */
     public static void getProtocol() throws Exception {
         if(protocol == null){

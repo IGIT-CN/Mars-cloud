@@ -31,7 +31,8 @@ public class BaseStartMars {
 
     /**
      * 启动Mars框架
-     * @param clazz
+     * @param clazz 类
+     * @param baseInitJdbc jdbc加载器
      */
     public static void start(Class<?> clazz, BaseInitJdbc baseInitJdbc) {
         try {
@@ -61,6 +62,10 @@ public class BaseStartMars {
 
     /**
      * 加载所需的资源
+     *
+     * @param clazz 类
+     * @param baseInitJdbc jdbc加载器
+     * @throws Exception 异常
      */
     private static void load(Class<?> clazz, BaseInitJdbc baseInitJdbc) throws Exception{
 
@@ -97,6 +102,8 @@ public class BaseStartMars {
 
     /**
      * 加载cloud需要的数据
+     *
+     * @throws Exception 异常
      */
     private static void initCloud() throws Exception {
         Registered.register(0);
@@ -104,7 +111,7 @@ public class BaseStartMars {
 
     /**
      * 获取端口号，默认8080
-     * @return
+     * @return 端口
      */
     private static int getPort() {
 

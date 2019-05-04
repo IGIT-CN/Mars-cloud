@@ -25,7 +25,7 @@ public class Registered {
      * 发布注册接口
      *
      * @param state 0 第一次注册，1 离线后重新注册
-     * @throws Exception
+     * @throws Exception 异常
      */
     public static void register(int state) throws Exception {
         try {

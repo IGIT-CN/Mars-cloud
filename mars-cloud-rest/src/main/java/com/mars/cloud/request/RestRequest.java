@@ -17,11 +17,11 @@ public class RestRequest {
 
     /**
      * 发起post请求
-     * @param serverName
-     * @param methodName
-     * @param params
-     * @return
-     * @throws Exception
+     * @param serverName serverName
+     * @param methodName methodName
+     * @param params params
+     * @return 结果
+     * @throws Exception 异常
      */
     public static String post(String serverName, String methodName, Object params) throws Exception {
         return request(serverName,methodName,RequestMetohd.POST,params,String.class);
@@ -29,11 +29,11 @@ public class RestRequest {
 
     /**
      * 发起get请求
-     * @param serverName
-     * @param methodName
-     * @param params
-     * @return
-     * @throws Exception
+     * @param serverName serverName
+     * @param methodName methodName
+     * @param params params
+     * @return 结果
+     * @throws Exception 异常
      */
     public static String get(String serverName, String methodName, Object params) throws Exception {
         return request(serverName,methodName,RequestMetohd.GET,params,String.class);
@@ -41,13 +41,13 @@ public class RestRequest {
 
     /**
      * 发起post请求
-     * @param serverName
-     * @param methodName
-     * @param params
-     * @param cls
-     * @param <T>
-     * @return
-     * @throws Exception
+     * @param serverName serverName
+     * @param methodName methodName
+     * @param params params
+     * @param cls cls
+     * @param <T> 泛型
+     * @return 结果
+     * @throws Exception 异常
      */
     public static <T> T post(String serverName, String methodName, Object params,Class<T> cls) throws Exception {
         return request(serverName,methodName,RequestMetohd.POST,params,cls);
@@ -55,13 +55,13 @@ public class RestRequest {
 
     /**
      * 发起get请求
-     * @param serverName
-     * @param methodName
-     * @param params
-     * @param cls
-     * @param <T>
-     * @return
-     * @throws Exception
+     * @param serverName serverName
+     * @param methodName methodName
+     * @param params params
+     * @param cls cls
+     * @param <T> 泛型
+     * @return 结果
+     * @throws Exception 异常
      */
     public static  <T> T  get(String serverName, String methodName, Object params,Class<T> cls) throws Exception {
         return request(serverName,methodName,RequestMetohd.GET,params,cls);
@@ -69,16 +69,15 @@ public class RestRequest {
 
     /**
      * 发起请求
-     * @param serverName
-     * @param methodName
-     * @param metohd
-     * @param params
-     * @param cls
-     * @param <T>
-     * @return
-     * @throws Exception
+     * @param serverName serverName
+     * @param methodName methodName
+     * @param params params
+     * @param cls cls
+     * @param <T> 泛型
+     * @return 结果
+     * @throws Exception 异常
      */
-    private static <T> T request(String serverName, String methodName, RequestMetohd metohd, Object params,Class<T> cls) throws Exception{
+    private static <T> T request(String serverName, String methodName, RequestMetohd method, Object params,Class<T> cls) throws Exception{
         String url = "";
         try {
             LoadCloudApis.loadServiceApis();
@@ -89,10 +88,10 @@ public class RestRequest {
 
             String result = null;
 
-            if(metohd.equals(RequestMetohd.GET)){
-                result = CloudHttpUtil.get(url, (Map<String,Object>)TypeConverUtil.conver(params,metohd));
+            if(method.equals(RequestMetohd.GET)){
+                result = CloudHttpUtil.get(url, (Map<String,Object>)TypeConverUtil.conver(params,method));
             } else {
-                result = CloudHttpUtil.request(url,TypeConverUtil.conver(params,metohd));
+                result = CloudHttpUtil.request(url,TypeConverUtil.conver(params,method));
             }
 
             return TypeConverUtil.conver(result,cls);

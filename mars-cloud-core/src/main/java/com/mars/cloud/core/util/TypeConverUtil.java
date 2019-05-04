@@ -15,10 +15,11 @@ public class TypeConverUtil {
 
     /**
      * 将obj转化成cls类型
-     * @param obj
-     * @param cls
-     * @param <T>
-     * @return
+     * @param obj 对象
+     * @param cls 类型
+     * @param <T> 类型
+     * @return 结果
+     * @throws Exception 异常
      */
     public static <T> T conver(Object obj,Class<T> cls) throws Exception {
         try{
@@ -50,11 +51,12 @@ public class TypeConverUtil {
 
     /**
      * 根据请求方式，返回转化后的数据
-     * @param obj
-     * @return
-     * @throws Exception
+     * @param obj 对象
+     * @param method 请求方法
+     * @return 结果
+     * @throws Exception 异常
      */
-    public static Object conver(Object obj, RequestMetohd metohd) throws Exception {
+    public static Object conver(Object obj, RequestMetohd method) throws Exception {
         try {
             String typeName = obj.getClass().getSimpleName().toUpperCase();
             switch (typeName){
@@ -71,7 +73,7 @@ public class TypeConverUtil {
                 case DataType.BOOLEAN:
                     throw new Exception("传参必须是自定义对象或者Map，不可以是基础类型，包装器类型以及其他JDK自带的类型");
                 default:
-                    if(metohd.equals(RequestMetohd.GET)){
+                    if(method.equals(RequestMetohd.GET)){
                         return toMap(obj);
                     } else{
                         return obj;
@@ -84,9 +86,9 @@ public class TypeConverUtil {
 
     /**
      * 转化成Map
-     * @param obj
-     * @return
-     * @throws Exception
+     * @param obj 对象
+     * @return 结果
+     * @throws Exception 异常
      */
     private static Map<String,Object> toMap(Object obj) throws Exception {
 

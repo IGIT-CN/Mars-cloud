@@ -22,7 +22,7 @@ public class UrlListModel {
 
     /**
      * 轮询算法
-     * @return
+     * @return 下标
      */
     public int getPollIndex() {
         if(index > (urls.size() - 1)){
@@ -33,7 +33,7 @@ public class UrlListModel {
 
     /**
      * 随机算法
-     * @return
+     * @return 下标
      */
     public int getRandomIndex() {
         int index = 0;

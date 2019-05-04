@@ -14,7 +14,7 @@ public abstract class MarsJunit {
 
     /**
      * 加载项目启动的必要数据
-     * @param packName
+     * @param packName 包名
      */
     public void init(String packName){
         List<StartList> list = new ArrayList<>();

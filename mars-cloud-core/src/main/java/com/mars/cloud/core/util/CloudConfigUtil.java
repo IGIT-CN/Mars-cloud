@@ -10,8 +10,8 @@ public class CloudConfigUtil {
 
     /**
      * 获取cloud配置文件
-     * @return
-     * @throws Exception
+     * @return 配置
+     * @throws Exception 异常
      */
     public static JSONObject getCloudConfig() throws Exception {
         try {
@@ -25,9 +25,9 @@ public class CloudConfigUtil {
 
     /**
      * 获取cloud配置文件
-     * @param key
-     * @return
-     * @throws Exception
+     * @param key 配置文件key
+     * @return 配置
+     * @throws Exception 异常
      */
     public static Object getCloudConfig(String key) throws Exception {
         try {
@@ -40,8 +40,8 @@ public class CloudConfigUtil {
 
     /**
      * 获取cloud配置文件中的服务name
-     * @return
-     * @throws Exception
+     * @return 配置
+     * @throws Exception 异常
      */
     public static String getCloudName() throws Exception {
         try {

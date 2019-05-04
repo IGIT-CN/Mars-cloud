@@ -18,7 +18,7 @@ public class ZkWatcher implements Watcher {
 
     /**
      * 监视zk的状态
-     * @param event
+     * @param event 事件
      */
     @Override
     public void process(WatchedEvent event) {
