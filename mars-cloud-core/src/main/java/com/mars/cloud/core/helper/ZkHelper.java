@@ -118,12 +118,13 @@ public class ZkHelper {
      */
     public static String createNode(String path, String data,CreateMode createMode) throws Exception {
         Stat stat = zooKeeper.exists(path,true);
-        if (stat == null) {
-            return zooKeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,createMode);
-        } else {
-            setData(path, data);
+        if(stat != null && createMode.equals(CreateMode.EPHEMERAL)){
+            zooKeeper.delete(path,-1);
+        } else if(stat != null && createMode.equals(CreateMode.PERSISTENT)){
+            setData(path,data);
             return "ok";
         }
+        return zooKeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,createMode);
     }
 
     /**

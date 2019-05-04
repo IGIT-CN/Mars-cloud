@@ -48,10 +48,7 @@ public class LoadCloudApis {
                 /* 获取所有serverName对应的接口集群列表 */
                 List<String> nodes = ZkHelper.getChildren(path);
 
-                if(nodes == null || nodes.size() < 1){
-                    /* 如果此节点下没有存储数据的子节点，那么就把他删掉 */
-                    ZkHelper.deleteNode(path);
-                } else {
+                if(nodes != null || !nodes.isEmpty()) {
                     List<String> urls = new ArrayList<>();
                     /* 将接口集群列表的每个节点的数据拿出来 */
                     for (String str : nodes) {

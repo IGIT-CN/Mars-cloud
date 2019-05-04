@@ -29,8 +29,11 @@ public class Registered {
      */
     public static void register(int state) throws Exception {
         try {
+
             /* 打开zookeeper连接 */
             ZkHelper.openConnection();
+
+            marsLogger.info("接口注册中.......");
 
             /* 获取本服务的名称 */
             String serverName = CloudConfigUtil.getCloudName();
@@ -41,6 +44,8 @@ public class Registered {
 
             /* 将本服务的接口发布注册到zookeeper */
             Map<String, MarsMappingModel> maps = getControllers();
+
+            /* 注册接口 */
             for(String methodName : maps.keySet()){
 
                 String node = CloudConstant.API_SERVER_NODE
@@ -51,6 +56,8 @@ public class Registered {
 
                 /* 将本服务的接口已写入zookeeper */
                 ZkHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
+
+                marsLogger.info("接口[" + serverName + "->" + methodName + "]注册成功");
             }
             if(state == 0){
                 /* 如果是第一次注册，就启动接口监听器，进行轮询 */
