@@ -42,7 +42,7 @@ public class BaseStartMars {
             /* 加载框架数据 */
             load(clazz,baseInitJdbc);
 
-            /* 标识createbean方法已经调用完毕 */
+            /* 标识createBean方法已经调用完毕 */
             constants.setAttr(MarsConstant.HAS_START,"yes");
 
             /* 加载cloud需要的数据 */

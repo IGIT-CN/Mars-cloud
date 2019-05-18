@@ -80,7 +80,7 @@ public class TypeConverUtil {
                     }
             }
         } catch (Exception e){
-            throw new Exception("将参数转化成RestrRequest所需参数失败",e);
+            throw new Exception("将参数转化成RestRequest所需参数失败",e);
         }
     }
 

@@ -43,7 +43,6 @@ public class ApiListener {
 
         @Override
         public void run() {
-            int hasRegister = 0;
             while (true){
                 try {
                     synchronized (this) {
@@ -51,15 +50,10 @@ public class ApiListener {
                         /* 检查是否处于连接状态 */
                         boolean result = ZkHelper.hasConnection();
                         if(!result){
-                            hasRegister = 0;
-                        }
-                        if(!result || (hasRegister > 0 && hasRegister < 5)){
-                            hasRegister++;
                             marsLogger.info("zookeeper连接已断开，正在重新注册接口");
                             /* 不是连接状态，那就重新注册接口 */
                             Registered.register(1);
                             marsLogger.info("接口重新注册成功");
-                            hasRegister = 0;
                         }
                         /* 从zk更新接口到本地 */
                         urlListModelMap = LoadCloudApis.init();
