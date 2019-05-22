@@ -68,6 +68,8 @@ public class LoadCloudApis {
                         urlListModel.setUrls(urls);
                         urlListModelMap.put(path,urlListModel);
                     }
+                } else {
+                    ZkHelper.deleteNode(path);
                 }
             }
             return urlListModelMap;

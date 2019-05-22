@@ -24,7 +24,7 @@ public class UrlListModel {
      * 轮询算法
      * @return 下标
      */
-    public int getPollIndex() {
+    public synchronized int getPollIndex() {
         if(index > (urls.size() - 1)){
             index = 0;
         }
@@ -35,7 +35,7 @@ public class UrlListModel {
      * 随机算法
      * @return 下标
      */
-    public int getRandomIndex() {
+    public synchronized int getRandomIndex() {
         int index = 0;
         if(urls.size() > 1){
             index = random.nextInt(urls.size());
