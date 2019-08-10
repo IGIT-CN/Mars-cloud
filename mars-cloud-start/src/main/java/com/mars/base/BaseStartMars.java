@@ -12,8 +12,8 @@ import com.mars.ioc.load.LoadEasyBean;
 import com.mars.jdbc.base.BaseInitJdbc;
 import com.mars.mvc.load.LoadController;
 import com.mars.mvc.load.LoadInters;
-import com.mars.mvc.servlet.EasyCoreServlet;
-import com.mars.netty.server.EasyServer;
+import com.mars.mvc.servlet.MarsCoreServlet;
+import com.mars.netty.server.MarsServer;
 
 /**
  * 启动Mars框架
@@ -34,13 +34,13 @@ public class BaseStartMars {
      * @param clazz 类
      * @param baseInitJdbc jdbc加载器
      */
-    public static void start(Class<?> clazz, BaseInitJdbc baseInitJdbc) {
+    public static void start(Class<?> clazz, BaseInitJdbc baseInitJdbc,String suffix) {
         try {
 
             log.info("程序启动中......");
 
             /* 加载框架数据 */
-            load(clazz,baseInitJdbc);
+            load(clazz,baseInitJdbc,suffix);
 
             /* 标识createBean方法已经调用完毕 */
             constants.setAttr(MarsConstant.HAS_START,"yes");
@@ -52,7 +52,7 @@ public class BaseStartMars {
             StartAfter.after();
 
             /* 启动netty */
-            EasyServer.start(getPort());
+            MarsServer.start(getPort());
 
         } catch (Exception e) {
             log.error("",e);
@@ -67,13 +67,13 @@ public class BaseStartMars {
      * @param baseInitJdbc jdbc加载器
      * @throws Exception 异常
      */
-    private static void load(Class<?> clazz, BaseInitJdbc baseInitJdbc) throws Exception{
+    private static void load(Class<?> clazz, BaseInitJdbc baseInitJdbc,String suffix) throws Exception{
 
         /* 配置核心servlet */
-        constants.setAttr("core", EasyCoreServlet.class.getName());
+        constants.setAttr("core", MarsCoreServlet.class.getName());
 
         /* 加载配置文件 */
-        ConfigUtil.loadConfig();
+        ConfigUtil.loadConfig(suffix);
 
         /*获取要扫描的包*/
         String className = clazz.getName();
