@@ -37,7 +37,7 @@ public class ApiListener {
          * 如果写在run里面，run里面是个死循环，这个方法永远不会执行结束
          * 所以栈帧一直存在，导致里面局部变量一直存在，创建的对象一直被引用着，而不会被回收
          *
-         * 以上都是我猜的，为了安全起见
+         * 不过以上都是我猜的，为了安全起见
          */
         private Map<String,UrlListModel> urlListModelMap;
 
