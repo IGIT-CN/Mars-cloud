@@ -14,15 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-jdbc-base</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-mvc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-junit</artifactId>
+            <artifactId>mars-start-base</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.yuyenews</groupId>
