@@ -7,7 +7,10 @@ import com.mars.cloud.core.load.LoadServerList;
 import com.mars.cloud.registered.Registered;
 import com.mars.core.logger.MarsLogger;
 
+import java.util.Date;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 轮询更新本地API缓存
@@ -21,32 +24,21 @@ public class ApiListener {
      */
     public static void startListener(){
         ApiListener apiListener = new ApiListener();
-        apiListener.new Listener().start();
+        apiListener.new Listener().doListener();
     }
 
     /**
      * 轮询监听，每隔10秒更新一下本地接口缓存
      */
-    private class Listener extends Thread {
+    private class Listener {
 
-        /**
-         * 防止GC不回收，
-         * 当run里面每循环一次，这个map引用的对象都会变
-         * 而之前引用的对象将会因为没有变量引用它，而被回收
-         *
-         * 如果写在run里面，run里面是个死循环，这个方法永远不会执行结束
-         * 所以栈帧一直存在，导致里面局部变量一直存在，创建的对象一直被引用着，而不会被回收
-         *
-         * 不过以上都是我猜的，为了安全起见
-         */
         private Map<String,UrlListModel> urlListModelMap;
 
-        @Override
-        public void run() {
-            while (true){
-                try {
-                    synchronized (this) {
-                        wait(10000);
+        public void doListener() {
+            new Timer().scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
                         /* 检查是否处于连接状态 */
                         boolean result = ZkHelper.hasConnection();
                         if(!result){
@@ -60,12 +52,11 @@ public class ApiListener {
                         if(urlListModelMap != null){
                             LoadServerList.replace(urlListModelMap);
                         }
+                    } catch (Exception e){
+                        marsLogger.error("刷新本地缓存失败，即将重试刷新",e);
                     }
-                } catch (Exception e){
-                    marsLogger.error("刷新本地缓存失败，即将重试刷新",e);
-                    continue;
                 }
-            }
+            }, new Date(),10000);
         }
     }
 }
