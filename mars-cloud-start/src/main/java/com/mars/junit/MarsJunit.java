@@ -44,7 +44,7 @@ public abstract class MarsJunit {
         @Override
         public void load() throws Exception {
             LoadController.loadContrl();
-            Registered.register(0);
+            Registered.register();
         }
     }
 }
