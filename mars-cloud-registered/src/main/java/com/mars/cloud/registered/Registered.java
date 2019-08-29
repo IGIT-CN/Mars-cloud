@@ -4,7 +4,6 @@ import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.util.CloudUtil;
-import com.mars.cloud.listener.ApiListener;
 import com.mars.core.constant.MarsConstant;
 import com.mars.core.constant.MarsSpace;
 import com.mars.core.logger.MarsLogger;
@@ -24,10 +23,9 @@ public class Registered {
     /**
      * 发布注册接口
      *
-     * @param state 0 第一次注册，1 离线后重新注册
      * @throws Exception 异常
      */
-    public static void register(int state) throws Exception {
+    public static void register() throws Exception {
         try {
 
             /* 打开zookeeper连接 */
@@ -58,10 +56,6 @@ public class Registered {
                 ZkHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
 
                 marsLogger.info("接口[" + serverName + "->" + methodName + "]注册成功");
-            }
-            if(state == 0){
-                /* 如果是第一次注册，就启动接口监听器，进行轮询 */
-                ApiListener.startListener();
             }
         } catch (Exception e){
             throw new Exception("注册与发布接口失败",e);

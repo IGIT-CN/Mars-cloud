@@ -3,9 +3,8 @@ package com.mars.cloud.request;
 import com.mars.cloud.core.util.CloudHttpUtil;
 import com.mars.cloud.core.util.TypeConverUtil;
 import com.mars.cloud.core.model.UrlListModel;
-import com.mars.cloud.core.load.LoadCloudApis;
+import com.mars.cloud.load.GetServerApis;
 import com.mars.cloud.util.LoadBalancingUtil;
-import com.mars.cloud.core.load.LoadServerList;
 import com.mars.core.annotation.enums.RequestMetohd;
 
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.Map;
 /**
  * 发起rest请求
  */
-public class RestRequest {
+public class MarsRest {
 
     /**
      * 发起post请求
@@ -80,9 +79,8 @@ public class RestRequest {
     private static <T> T request(String serverName, String methodName, RequestMetohd method, Object params,Class<T> cls) throws Exception{
         String url = "";
         try {
-            LoadCloudApis.loadServiceApis();
 
-            UrlListModel urlList = LoadServerList.get(serverName+"->"+methodName);
+            UrlListModel urlList = GetServerApis.getUrls(serverName, methodName);
 
             url = getUrl(urlList);
 

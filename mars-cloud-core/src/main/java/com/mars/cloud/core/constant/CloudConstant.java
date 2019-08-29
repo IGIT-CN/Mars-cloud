@@ -20,4 +20,9 @@ public class CloudConstant {
      */
     public static final String API_SERVER_NODE = SERVER_NODE + "/{ip}-{port}";
 
+    /**
+     * 本地缓存
+     */
+    public static final String CACHE_APIS = "cacheApis-";
+
 }
