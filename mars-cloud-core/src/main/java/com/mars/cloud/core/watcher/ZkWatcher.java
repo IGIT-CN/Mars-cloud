@@ -30,7 +30,7 @@ public class ZkWatcher implements Watcher {
     @Override
     public void process(WatchedEvent event) {
         try {
-            switch (event.getState()){
+            switch (event.getState()) {
                 case Expired:
                     /* 超时重连 */
                     reConnectionZookeeper();
@@ -41,8 +41,12 @@ public class ZkWatcher implements Watcher {
                     break;
             }
 
-            /* 节点变动监听 */
-            switch (event.getType()){
+            /*
+             * 节点变动监听
+             * 这里调用getData方法是因为zk的watcher只有一次，一旦执行了就没了
+             * 所以每次执行watcher以后，都要重新监听这个节点
+             */
+            switch (event.getType()) {
                 case NodeDeleted:
                     ZkHelper.getData(event.getPath());
                     CacheManager.deleteUrlListModel(event.getPath());
@@ -57,8 +61,8 @@ public class ZkWatcher implements Watcher {
                     CacheManager.addUrlListModel(event.getPath());
                     break;
             }
-        } catch (Exception e){
-            marsLogger.error("处理zookeeper的通知时出错",e);
+        } catch (Exception e) {
+            marsLogger.error("处理zookeeper的通知时出错", e);
         }
     }
 
@@ -70,7 +74,7 @@ public class ZkWatcher implements Watcher {
             try {
                 marsLogger.info("zookeeper连接已断开，正在重新连接并注册接口");
 
-                Class cls = Class.forName("com.mars.cloud.listener.Listener");
+                Class cls = Class.forName("com.mars.cloud.reconnection.ReConnection");
                 Method method = cls.getMethod("reConnectionZookeeper");
                 method.invoke(cls.getDeclaredConstructor().newInstance());
 

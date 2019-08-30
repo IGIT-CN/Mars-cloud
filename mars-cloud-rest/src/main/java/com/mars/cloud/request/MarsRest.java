@@ -4,7 +4,7 @@ import com.mars.cloud.core.util.CloudHttpUtil;
 import com.mars.cloud.core.util.TypeConverUtil;
 import com.mars.cloud.core.model.UrlListModel;
 import com.mars.cloud.load.GetServerApis;
-import com.mars.cloud.util.LoadBalancingUtil;
+import com.mars.cloud.util.BalancingUtil;
 import com.mars.core.annotation.enums.RequestMetohd;
 
 import java.util.Map;
@@ -103,10 +103,10 @@ public class MarsRest {
      * @param urlList
      * @return
      */
-    private static String getUrl(UrlListModel urlList) throws NullPointerException {
+    private static String getUrl(UrlListModel urlList) throws Exception {
         if(urlList == null || urlList.getUrls() == null || urlList.getUrls().size() < 1){
-            throw new NullPointerException("请求地址不正确，请检查serverName和methodName后再尝试");
+            throw new Exception("请求地址不正确，请检查serverName和methodName后再尝试");
         }
-        return LoadBalancingUtil.getUrl(urlList);
+        return "http://"+ BalancingUtil.getUrl(urlList);
     }
 }

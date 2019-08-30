@@ -56,7 +56,7 @@ public class Registered {
                 /* 将本服务的接口已写入zookeeper */
                 ZkHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
 
-                marsLogger.info("接口[" + serverName + "->" + methodName + "]注册成功");
+                marsLogger.info("接口[" + CloudUtil.getLocalHost()+"/"+methodName + "]注册成功");
             }
         } catch (Exception e){
             throw new Exception("注册与发布接口失败",e);

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 负载均衡算法
  */
-public class LoadBalancingUtil {
+public class BalancingUtil {
 
     private static String strategy;
 

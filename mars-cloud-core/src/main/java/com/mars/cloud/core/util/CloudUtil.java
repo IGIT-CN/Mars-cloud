@@ -8,21 +8,6 @@ import com.mars.core.util.MarsAddressUtil;
 public class CloudUtil {
 
     /**
-     * 本机局域网IP
-     */
-    private static String ip;
-
-    /**
-     * 本服务的端口号
-     */
-    private static String port;
-
-    /**
-     * 本服务的请求协议，只有http和https可选
-     */
-    private static String protocol;
-
-    /**
      * 本机接口的完整请求前缀
      */
     private static String localHost;
@@ -34,10 +19,7 @@ public class CloudUtil {
      */
     public static String getLocalHost() throws Exception {
         if(localHost == null){
-            getLocalIp();
-            getPort();
-            getProtocol();
-            localHost = protocol+"://"+ip+":"+port;
+            localHost = getLocalIp()+":"+getPort();
         }
         return localHost;
     }
@@ -48,8 +30,7 @@ public class CloudUtil {
      * @throws Exception 异常
      */
     public static String getLocalIp() throws Exception {
-        ip = MarsAddressUtil.getLocalIp();
-        return ip;
+        return MarsAddressUtil.getLocalIp();
     }
 
     /**
@@ -57,25 +38,6 @@ public class CloudUtil {
      * @return 端口号
      */
     public static String getPort() {
-        port = MarsAddressUtil.getPort();
-        return port;
-    }
-
-    /**
-     * 初始化protocol
-     * @throws Exception 异常
-     */
-    public static void getProtocol() throws Exception {
-        if(protocol == null){
-            Object proto = CloudConfigUtil.getCloudConfig("protocol");
-            if(proto == null){
-                protocol = "http";
-            } else if(proto.equals("http") || proto.equals("https")) {
-                protocol = proto.toString();
-            } else {
-                protocol = null;
-                throw new Exception("Mars-cloud目前只支持http和https协议");
-            }
-        }
+        return MarsAddressUtil.getPort();
     }
 }
