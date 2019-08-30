@@ -47,7 +47,7 @@ public class StartMars {
 		StartList item = new StartList() {
 			@Override
 			public void load() throws Exception {
-				Registered.register(0);
+				Registered.register();
 			}
 		};
 
