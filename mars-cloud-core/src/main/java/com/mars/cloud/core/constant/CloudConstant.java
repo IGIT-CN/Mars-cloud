@@ -8,7 +8,7 @@ public class CloudConstant {
     /**
      * 存储api接口的根目录
      */
-    public static final String BASE_SERVER_NODE = "/serviceApiList";
+    public static final String BASE_SERVER_NODE = "/mars-cloud";
 
     /**
      * 存储api接口的serverName目录

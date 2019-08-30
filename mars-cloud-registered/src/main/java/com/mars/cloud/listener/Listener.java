@@ -1,5 +1,6 @@
 package com.mars.cloud.listener;
 
+import com.mars.cloud.core.cache.CacheDAO;
 import com.mars.cloud.registered.Registered;
 
 /**
@@ -13,5 +14,6 @@ public class Listener {
      */
     public void reConnectionZookeeper() throws Exception {
         Registered.register();
+        CacheDAO.clear();
     }
 }

@@ -5,6 +5,7 @@ import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.model.UrlListModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetServerApis {
@@ -43,13 +44,18 @@ public class GetServerApis {
         }
 
         String path = CloudConstant.SERVER_NODE.replace("{serverName}",serverName).replace("{method}",methodName);
-        List<String> urls = ZkHelper.getChildren(path);
+        List<String> urlNodes = ZkHelper.getChildren(path);
+
+        List<String> urls = new ArrayList<>();
+        for(String urlNode : urlNodes){
+            urls.add(ZkHelper.getData(path+"/"+urlNode));
+        }
 
         UrlListModel urlListModel = new UrlListModel();
         urlListModel.setUrls(urls);
 
         /* 将接口缓存下来 */
-        CacheManager.addUrlListModel(serverName,urlListModel);
+        CacheManager.addUrlListModel(serverName+"->"+methodName,urlListModel);
 
         return urlListModel;
     }

@@ -5,7 +5,9 @@ import com.mars.cloud.core.model.UrlListModel;
 import com.mars.core.constant.MarsSpace;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 接口缓存基础操作
@@ -23,7 +25,7 @@ public class CacheDAO {
      * @return
      */
     public static UrlListModel getUrlListModel(String serverName){
-        Object apis =  marsSpace.getAttr(getKey(serverName));
+        Object apis =  getApiCache().get(getKey(serverName));
         if(apis != null){
             return (UrlListModel)apis;
         }
@@ -43,8 +45,17 @@ public class CacheDAO {
         if (urlList == null) {
             return;
         }
-        if (urlList.contains(url)) {
-            urlList.remove(url);
+        if(url.indexOf("://") > -1){
+            if (urlList.contains(url)) {
+                urlList.remove(url);
+            }
+        } else {
+            for(String item : urlList){
+                if(item.indexOf(url) > -1){
+                    urlList.remove(item);
+                    return;
+                }
+            }
         }
     }
 
@@ -70,7 +81,7 @@ public class CacheDAO {
         }
         urlListModel.setUrls(urls);
 
-        marsSpace.setAttr(getKey(serverName),urlListModel);
+        getApiCache().put(getKey(serverName),urlListModel);
     }
 
     /**
@@ -79,7 +90,31 @@ public class CacheDAO {
      * @param urlListModel
      */
     public static void updateApi(String serverName,UrlListModel urlListModel){
-        marsSpace.setAttr(getKey(serverName),urlListModel);
+        getApiCache().put(getKey(serverName),urlListModel);
+    }
+
+    /**
+     * 清理本地缓存
+     */
+    public static void clear(){
+        marsSpace.remove(CloudConstant.CACHE_APIS);
+    }
+
+    /**
+     * 获取接口集合
+     * @return
+     */
+    private static Map<String,Object> getApiCache(){
+        Map<String,Object> apisMap = null;
+
+        Object api = marsSpace.getAttr(CloudConstant.CACHE_APIS);
+        if(api == null){
+            apisMap = new HashMap<>();
+            marsSpace.setAttr(CloudConstant.CACHE_APIS,apisMap);
+        } else {
+            apisMap = (Map<String,Object>)api;
+        }
+        return apisMap;
     }
 
     /**
