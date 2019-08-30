@@ -8,6 +8,9 @@ import com.mars.cloud.core.model.UrlListModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 获取请求路径
+ */
 public class GetServerApis {
 
     /**
@@ -29,7 +32,13 @@ public class GetServerApis {
      * @return
      */
     private static UrlListModel getUrlsFromCache(String serverName, String methodName) throws Exception {
-        return CacheManager.getUrlListModel(serverName+"->"+methodName);
+        UrlListModel urlListModel = CacheManager.getUrlListModel(serverName+"->"+methodName);
+        if(urlListModel == null
+                || urlListModel.getUrls() == null
+                || urlListModel.getUrls().size() < 1){
+            return null;
+        }
+        return urlListModel;
     }
 
     /**
@@ -45,6 +54,9 @@ public class GetServerApis {
 
         String path = CloudConstant.SERVER_NODE.replace("{serverName}",serverName).replace("{method}",methodName);
         List<String> urlNodes = ZkHelper.getChildren(path);
+        if(urlNodes == null || urlNodes.size() < 1){
+            return null;
+        }
 
         List<String> urls = new ArrayList<>();
         for(String urlNode : urlNodes){

@@ -15,7 +15,7 @@ public class CloudHttpUtil {
     /**
      * 超时时间
      */
-    private static long timOut;
+    private static long timeOut;
 
 
     /**
@@ -110,8 +110,8 @@ public class CloudHttpUtil {
     private static OkHttpClient getOkHttpClient() throws Exception {
         init();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(timOut, TimeUnit.SECONDS)//设置连接超时时间
-                .readTimeout(timOut, TimeUnit.SECONDS)//设置读取超时时间
+                .connectTimeout(timeOut, TimeUnit.SECONDS)//设置连接超时时间
+                .readTimeout(timeOut, TimeUnit.SECONDS)//设置读取超时时间
                 .build();
         return okHttpClient;
     }
@@ -123,9 +123,9 @@ public class CloudHttpUtil {
     private static void init() throws Exception {
         Object obj = CloudConfigUtil.getCloudConfig("timeOut");
         if(obj == null){
-            timOut = 10000;
+            timeOut = 10000;
         } else {
-            timOut = Long.parseLong(obj.toString());
+            timeOut = Long.parseLong(obj.toString());
         }
     }
 }

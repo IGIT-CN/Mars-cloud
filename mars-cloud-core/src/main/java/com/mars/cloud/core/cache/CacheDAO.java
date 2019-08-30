@@ -45,18 +45,20 @@ public class CacheDAO {
         if (urlList == null) {
             return;
         }
-        if(url.indexOf("://") > -1){
+        if(url.indexOf("/") > -1){
             if (urlList.contains(url)) {
                 urlList.remove(url);
             }
         } else {
+            List<String> removeUrl = new ArrayList<>();
             for(String item : urlList){
                 if(item.indexOf(url) > -1){
-                    urlList.remove(item);
-                    return;
+                    removeUrl.add(item);
                 }
             }
+            urlList.removeAll(removeUrl);
         }
+
     }
 
     /**
@@ -81,15 +83,6 @@ public class CacheDAO {
         }
         urlListModel.setUrls(urls);
 
-        getApiCache().put(getKey(serverName),urlListModel);
-    }
-
-    /**
-     * 更新接口
-     * @param serverName
-     * @param urlListModel
-     */
-    public static void updateApi(String serverName,UrlListModel urlListModel){
         getApiCache().put(getKey(serverName),urlListModel);
     }
 

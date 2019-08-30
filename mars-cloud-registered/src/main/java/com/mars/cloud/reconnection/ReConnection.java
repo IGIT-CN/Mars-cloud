@@ -1,4 +1,4 @@
-package com.mars.cloud.listener;
+package com.mars.cloud.reconnection;
 
 import com.mars.cloud.core.cache.CacheDAO;
 import com.mars.cloud.registered.Registered;
@@ -6,7 +6,7 @@ import com.mars.cloud.registered.Registered;
 /**
  * 监听器,由Watcher触发
  */
-public class Listener {
+public class ReConnection {
 
     /**
      * 重新注册接口,在watcher里反射调用的

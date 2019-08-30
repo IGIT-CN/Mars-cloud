@@ -25,10 +25,15 @@ public class UrlListModel {
      * @return 下标
      */
     public synchronized int getPollIndex() {
-        if(index > (urls.size() - 1)){
+
+        if(index < (urls.size() - 1)){
+            index++;
+        } else {
             index = 0;
         }
-        return index++;
+
+        return index;
+
     }
 
     /**
