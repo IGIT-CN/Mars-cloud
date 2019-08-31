@@ -24,7 +24,7 @@ public class StartMars {
         if (args != null && args[0] != null) {
             BaseStartMars.start(clazz, new InitJdbc(), args[0], initCloud());
         } else {
-            start(clazz);
+            BaseStartMars.start(clazz, new InitJdbc(), null, initCloud());
         }
     }
 
@@ -34,7 +34,7 @@ public class StartMars {
      * @param clazz 类
      */
     public static void start(Class<?> clazz) {
-        BaseStartMars.start(clazz, new InitJdbc(), null, initCloud());
+        start(clazz,null);
     }
 
 
