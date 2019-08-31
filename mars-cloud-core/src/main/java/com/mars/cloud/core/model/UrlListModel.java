@@ -22,11 +22,12 @@ public class UrlListModel {
 
     /**
      * 轮询算法
+     *
      * @return 下标
      */
     public synchronized int getPollIndex() {
 
-        if(index < (urls.size() - 1)){
+        if (index < (urls.size() - 1)) {
             index++;
         } else {
             index = 0;
@@ -38,15 +39,16 @@ public class UrlListModel {
 
     /**
      * 随机算法
+     *
      * @return 下标
      */
     public synchronized int getRandomIndex() {
         int index = 0;
-        if(urls.size() > 1){
+        if (urls.size() > 1) {
             index = random.nextInt(urls.size());
         }
 
-        if(index < 0){
+        if (index < 0) {
             index = 0;
         }
         return index;

@@ -118,7 +118,7 @@ public class CacheManager {
             if (url != null) {
                 return url;
             }
-            url = path.substring(path.lastIndexOf("/")+1);
+            url = path.substring(path.lastIndexOf("/") + 1);
             return url.replace("-", ":");
         }
         return null;

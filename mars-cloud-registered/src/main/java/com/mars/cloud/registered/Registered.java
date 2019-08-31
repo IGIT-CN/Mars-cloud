@@ -45,33 +45,34 @@ public class Registered {
             Map<String, MarsMappingModel> maps = getControllers();
 
             /* 注册接口 */
-            for(String methodName : maps.keySet()){
+            for (String methodName : maps.keySet()) {
 
                 String node = CloudConstant.API_SERVER_NODE
-                        .replace("{serverName}",serverName)
-                        .replace("{method}",methodName)
-                        .replace("{ip}",ip)
-                        .replace("{port}",port);
+                        .replace("{serverName}", serverName)
+                        .replace("{method}", methodName)
+                        .replace("{ip}", ip)
+                        .replace("{port}", port);
 
                 /* 将本服务的接口已写入zookeeper */
-                ZkHelper.createNodes(node,CloudUtil.getLocalHost()+"/"+methodName);
+                ZkHelper.createNodes(node, CloudUtil.getLocalHost() + "/" + methodName);
 
-                marsLogger.info("接口[" + CloudUtil.getLocalHost()+"/"+methodName + "]注册成功");
+                marsLogger.info("接口[" + CloudUtil.getLocalHost() + "/" + methodName + "]注册成功");
             }
-        } catch (Exception e){
-            throw new Exception("注册与发布接口失败",e);
+        } catch (Exception e) {
+            throw new Exception("注册与发布接口失败", e);
         }
     }
 
     /**
      * 获取所有的controller对象
+     *
      * @return 所有的controller对象
      */
-    private static Map<String,MarsMappingModel> getControllers() {
-        Map<String,MarsMappingModel> controlObjects = null;
+    private static Map<String, MarsMappingModel> getControllers() {
+        Map<String, MarsMappingModel> controlObjects = null;
         Object obj = constants.getAttr(MarsConstant.CONTROLLER_OBJECTS);
-        if(obj != null) {
-            controlObjects = (Map<String,MarsMappingModel>)obj;
+        if (obj != null) {
+            controlObjects = (Map<String, MarsMappingModel>) obj;
         }
         return controlObjects;
     }

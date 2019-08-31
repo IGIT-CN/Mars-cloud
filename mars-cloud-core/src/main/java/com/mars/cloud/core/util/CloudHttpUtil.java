@@ -20,7 +20,8 @@ public class CloudHttpUtil {
 
     /**
      * 发起请求，以序列化方式传递数据
-     * @param url 路径
+     *
+     * @param url    路径
      * @param params 参数
      * @return 结果
      * @throws Exception 异常
@@ -34,76 +35,80 @@ public class CloudHttpUtil {
 
         /* 发起post请求 将数据传递过去 */
         MediaType formData = MediaType.parse("multipart/form-data");
-        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"),param);
+        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), param);
         MultipartBody body = new MultipartBody.Builder()
                 .setType(formData)
-                .addFormDataPart(MarsCloudConstant.PARAM,"params",fileBody)
-                .addFormDataPart(MarsCloudConstant.REQUEST_TYPE,MarsCloudConstant.REQUEST_TYPE)
+                .addFormDataPart(MarsCloudConstant.PARAM, "params", fileBody)
+                .addFormDataPart(MarsCloudConstant.REQUEST_TYPE, MarsCloudConstant.REQUEST_TYPE)
                 .build();
         Request request = new Request.Builder()
                 .post(body)
                 .url(url)
                 .build();
 
-        return okCall(okHttpClient,request);
+        return okCall(okHttpClient, request);
     }
 
     /**
      * 发起get请求
+     *
      * @param strUrl 链接
      * @param params 参数
      * @return 响应结果
      * @throws Exception 异常
      */
-    public static String get(String strUrl, Map<String,Object> params) throws Exception {
-        String url = strUrl+"?"+getParams(params);
+    public static String get(String strUrl, Map<String, Object> params) throws Exception {
+        String url = strUrl + "?" + getParams(params);
         OkHttpClient okHttpClient = getOkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
-        return okCall(okHttpClient,request);
+        return okCall(okHttpClient, request);
     }
 
     /**
      * 组装参数
+     *
      * @param params 参数
      * @return 结果
      */
-    private static String getParams(Map<String,Object> params){
+    private static String getParams(Map<String, Object> params) {
         StringBuffer stringBuffer = new StringBuffer();
-        if(params != null){
-            for(String key : params.keySet()){
+        if (params != null) {
+            for (String key : params.keySet()) {
                 stringBuffer.append(key);
                 stringBuffer.append("=");
                 stringBuffer.append(params.get(key));
                 stringBuffer.append("&");
             }
         }
-        return stringBuffer.substring(0,stringBuffer.length()-1);
+        return stringBuffer.substring(0, stringBuffer.length() - 1);
     }
 
     /**
      * 开始请求
+     *
      * @param okHttpClient 客户端
-     * @param request 请求
+     * @param request      请求
      * @return 结果
      * @throws Exception 异常
      */
-    private static String okCall(OkHttpClient okHttpClient,Request request) throws Exception {
+    private static String okCall(OkHttpClient okHttpClient, Request request) throws Exception {
         Call call = okHttpClient.newCall(request);
         Response response = call.execute();
 
         int code = response.code();
         ResponseBody responseBody = response.body();
-        if(code != 200){
-            throw new Exception("请求接口出现异常:"+responseBody.string());
+        if (code != 200) {
+            throw new Exception("请求接口出现异常:" + responseBody.string());
         }
         return responseBody.string();
     }
 
     /**
      * 获取okHttp客户端
+     *
      * @return 客户端
      * @throws Exception 异常
      */
@@ -118,11 +123,12 @@ public class CloudHttpUtil {
 
     /**
      * 初始化timeOut
+     *
      * @throws Exception 异常
      */
     private static void init() throws Exception {
         Object obj = CloudConfigUtil.getCloudConfig("timeOut");
-        if(obj == null){
+        if (obj == null) {
             timeOut = 10000;
         } else {
             timeOut = Long.parseLong(obj.toString());

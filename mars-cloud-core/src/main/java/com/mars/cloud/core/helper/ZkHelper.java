@@ -46,7 +46,7 @@ public class ZkHelper {
         Object configTimeOut = config.get("sessionTimeout");
         if (configTimeOut != null) {
             sessionTimeout = Integer.parseInt(configTimeOut.toString());
-            if(sessionTimeout <= 30000){
+            if (sessionTimeout <= 30000) {
                 sessionTimeout = 30000;
             }
         }
@@ -65,7 +65,7 @@ public class ZkHelper {
 
             if (!hasConnection()) {
                 countDownLatch = new CountDownLatch(1);
-                zooKeeper = new ZooKeeper(registeds,sessionTimeout,new ZkWatcher(countDownLatch));
+                zooKeeper = new ZooKeeper(registeds, sessionTimeout, new ZkWatcher(countDownLatch));
                 countDownLatch.await();
                 marsLogger.info("连接zookeeper成功");
             }
@@ -79,8 +79,8 @@ public class ZkHelper {
      *
      * @return false 没有连接，true 已连接
      */
-    public static boolean hasConnection(){
-        if(zooKeeper != null && zooKeeper.getState().isConnected()){
+    public static boolean hasConnection() {
+        if (zooKeeper != null && zooKeeper.getState().isConnected()) {
             return true;
         }
         return false;
@@ -97,13 +97,13 @@ public class ZkHelper {
     public static String createNodes(String path, String data) throws Exception {
         String[] pa = path.split("/");
         StringBuffer pat = new StringBuffer();
-        for(int i=1;i<pa.length;i++){
+        for (int i = 1; i < pa.length; i++) {
             pat.append("/");
             pat.append(pa[i]);
-            if(i < pa.length-1){
-                createNode(pat.toString(),"blank",CreateMode.PERSISTENT);
+            if (i < pa.length - 1) {
+                createNode(pat.toString(), "blank", CreateMode.PERSISTENT);
             } else {
-                createNode(pat.toString(),data,CreateMode.EPHEMERAL);
+                createNode(pat.toString(), data, CreateMode.EPHEMERAL);
             }
         }
         return "ok";
@@ -117,15 +117,15 @@ public class ZkHelper {
      * @return 结果
      * @throws Exception 异常
      */
-    public static String createNode(String path, String data,CreateMode createMode) throws Exception {
-        Stat stat = zooKeeper.exists(path,true);
-        if(stat != null && createMode.equals(CreateMode.EPHEMERAL)){
-            zooKeeper.delete(path,-1);
-        } else if(stat != null && createMode.equals(CreateMode.PERSISTENT)){
-            setData(path,data);
+    public static String createNode(String path, String data, CreateMode createMode) throws Exception {
+        Stat stat = zooKeeper.exists(path, true);
+        if (stat != null && createMode.equals(CreateMode.EPHEMERAL)) {
+            zooKeeper.delete(path, -1);
+        } else if (stat != null && createMode.equals(CreateMode.PERSISTENT)) {
+            setData(path, data);
             return "ok";
         }
-        return zooKeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,createMode);
+        return zooKeeper.create(path, data.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, createMode);
     }
 
     /**
@@ -136,7 +136,7 @@ public class ZkHelper {
      * @throws Exception 异常
      */
     public static List<String> getChildren(String path) throws Exception {
-        List<String> children = zooKeeper.getChildren(path,true);
+        List<String> children = zooKeeper.getChildren(path, true);
         return children;
     }
 
@@ -148,10 +148,10 @@ public class ZkHelper {
      * @throws Exception 异常
      */
     public static String getData(String path) throws Exception {
-        Stat stat = zooKeeper.exists(path,true);
+        Stat stat = zooKeeper.exists(path, true);
         if (stat != null) {
-            byte[] data = zooKeeper.getData(path,true,stat);
-            if(data != null){
+            byte[] data = zooKeeper.getData(path, true, stat);
+            if (data != null) {
                 return new String(data);
             }
         }
@@ -166,8 +166,8 @@ public class ZkHelper {
      * @throws Exception 异常
      */
     public static void setData(String path, String data) throws Exception {
-        if (zooKeeper.exists(path,true) != null) {
-            zooKeeper.setData(path, data.getBytes(),-1);
+        if (zooKeeper.exists(path, true) != null) {
+            zooKeeper.setData(path, data.getBytes(), -1);
         }
     }
 }
