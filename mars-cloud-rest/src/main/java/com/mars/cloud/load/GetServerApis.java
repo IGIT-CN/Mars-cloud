@@ -4,6 +4,7 @@ import com.mars.cloud.core.cache.CacheManager;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.model.UrlListModel;
+import com.mars.cloud.util.BalancingUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,12 @@ public class GetServerApis {
      * @param serverName
      * @return
      */
-    public static UrlListModel getUrls(String serverName,String methodName) throws Exception {
+    public static String getUrl(String serverName,String methodName) throws Exception {
         UrlListModel urlListModel = getUrlsFromCache(serverName, methodName);
         if(urlListModel == null){
             urlListModel = getUrlsFromZookeeper(serverName, methodName);
         }
-        return urlListModel;
+        return getUrlForList(urlListModel);
     }
 
     /**
@@ -70,5 +71,17 @@ public class GetServerApis {
         CacheManager.addUrlListModel(serverName+"->"+methodName,urlListModel);
 
         return urlListModel;
+    }
+
+    /**
+     * 根据负载均衡策略，从集群中获取一个连接
+     * @param urlList
+     * @return
+     */
+    private static String getUrlForList(UrlListModel urlList) throws Exception {
+        if(urlList == null || urlList.getUrls() == null || urlList.getUrls().size() < 1){
+            throw new Exception("请求地址不正确，请检查serverName和methodName后再尝试");
+        }
+        return "http://"+ BalancingUtil.getUrl(urlList);
     }
 }

@@ -15,20 +15,22 @@ public abstract class MarsJunit {
 
     /**
      * 加载项目启动的必要数据
+     *
      * @param packName 包名
      */
-    public void init(String packName, String suffix){
+    public void init(String packName, String suffix) {
         List<StartList> list = new ArrayList<>();
         list.add(new LoadCloud());
-        MarsJunitStart.start(new InitJdbc(),packName,this,list,suffix);
+        MarsJunitStart.start(new InitJdbc(), packName, this, list, suffix);
     }
 
     /**
      * 加载项目启动的必要数据
+     *
      * @param packName 包名
      */
-    public void init(String packName){
-        init(packName,null);
+    public void init(String packName) {
+        init(packName, null);
     }
 
     /**

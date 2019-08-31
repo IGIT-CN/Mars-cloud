@@ -21,22 +21,24 @@ public class CacheDAO {
 
     /**
      * 获取接口
+     *
      * @param serverName
      * @return
      */
-    public static UrlListModel getUrlListModel(String serverName){
-        Object apis =  getApiCache().get(getKey(serverName));
-        if(apis != null){
-            return (UrlListModel)apis;
+    public static UrlListModel getUrlListModel(String serverName) {
+        Object apis = getApiCache().get(getKey(serverName));
+        if (apis != null) {
+            return (UrlListModel) apis;
         }
         return null;
     }
 
     /**
      * 删除接口
+     *
      * @param serverName
      */
-    public static void deleteApi(String serverName,String url) {
+    public static void deleteApi(String serverName, String url) {
         UrlListModel urlListModel = getUrlListModel(serverName);
         if (urlListModel == null) {
             return;
@@ -45,14 +47,14 @@ public class CacheDAO {
         if (urlList == null) {
             return;
         }
-        if(url.indexOf("/") > -1){
+        if (url.indexOf("/") > -1) {
             if (urlList.contains(url)) {
                 urlList.remove(url);
             }
         } else {
             List<String> removeUrl = new ArrayList<>();
-            for(String item : urlList){
-                if(item.indexOf(url) > -1){
+            for (String item : urlList) {
+                if (item.indexOf(url) > -1) {
                     removeUrl.add(item);
                 }
             }
@@ -63,59 +65,62 @@ public class CacheDAO {
 
     /**
      * 添加接口
+     *
      * @param serverName
      * @param url
      */
-    public static void addApi(String serverName,String url){
+    public static void addApi(String serverName, String url) {
         UrlListModel urlListModel = getUrlListModel(serverName);
 
-        if(urlListModel == null){
+        if (urlListModel == null) {
             urlListModel = new UrlListModel();
         }
 
         List<String> urls = urlListModel.getUrls();
-        if(urls == null){
+        if (urls == null) {
             urls = new ArrayList<>();
         }
 
-        if(!urls.contains(url)){
+        if (url.indexOf("/") > -1 && !urls.contains(url)) {
             urls.add(url);
         }
         urlListModel.setUrls(urls);
 
-        getApiCache().put(getKey(serverName),urlListModel);
+        getApiCache().put(getKey(serverName), urlListModel);
     }
 
     /**
      * 清理本地缓存
      */
-    public static void clear(){
+    public static void clear() {
         marsSpace.remove(CloudConstant.CACHE_APIS);
     }
 
     /**
      * 获取接口集合
+     *
      * @return
      */
-    private static Map<String,Object> getApiCache(){
-        Map<String,Object> apisMap = null;
+    private static Map<String, Object> getApiCache() {
+        Map<String, Object> apisMap = null;
 
         Object api = marsSpace.getAttr(CloudConstant.CACHE_APIS);
-        if(api == null){
+        if (api == null) {
             apisMap = new HashMap<>();
-            marsSpace.setAttr(CloudConstant.CACHE_APIS,apisMap);
+            marsSpace.setAttr(CloudConstant.CACHE_APIS, apisMap);
         } else {
-            apisMap = (Map<String,Object>)api;
+            apisMap = (Map<String, Object>) api;
         }
         return apisMap;
     }
 
     /**
      * 获取key
+     *
      * @param serverName
      * @return
      */
-    private static String getKey(String serverName){
-        return CloudConstant.CACHE_APIS+serverName;
+    private static String getKey(String serverName) {
+        return CloudConstant.CACHE_APIS + serverName;
     }
 }
