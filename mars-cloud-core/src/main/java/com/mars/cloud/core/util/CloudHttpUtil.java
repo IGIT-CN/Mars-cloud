@@ -4,7 +4,6 @@ import com.mars.core.constant.MarsCloudConstant;
 import com.mars.core.util.SerializableUtil;
 import okhttp3.*;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,42 +48,6 @@ public class CloudHttpUtil {
         return okCall(okHttpClient, request);
     }
 
-    /**
-     * 发起get请求
-     *
-     * @param strUrl 链接
-     * @param params 参数
-     * @return 响应结果
-     * @throws Exception 异常
-     */
-    public static String get(String strUrl, Map<String, Object> params) throws Exception {
-        String url = strUrl + "?" + getParams(params);
-        OkHttpClient okHttpClient = getOkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-
-        return okCall(okHttpClient, request);
-    }
-
-    /**
-     * 组装参数
-     *
-     * @param params 参数
-     * @return 结果
-     */
-    private static String getParams(Map<String, Object> params) {
-        StringBuffer stringBuffer = new StringBuffer();
-        if (params != null) {
-            for (String key : params.keySet()) {
-                stringBuffer.append(key);
-                stringBuffer.append("=");
-                stringBuffer.append(params.get(key));
-                stringBuffer.append("&");
-            }
-        }
-        return stringBuffer.substring(0, stringBuffer.length() - 1);
-    }
 
     /**
      * 开始请求

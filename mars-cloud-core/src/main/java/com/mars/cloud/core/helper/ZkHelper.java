@@ -3,9 +3,10 @@ package com.mars.cloud.core.helper;
 import com.alibaba.fastjson.JSONObject;
 import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.watcher.ZkWatcher;
-import com.mars.core.logger.MarsLogger;
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -15,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public class ZkHelper {
 
-    private static MarsLogger marsLogger = MarsLogger.getLogger(ZkHelper.class);
+    private static Logger marsLogger = LoggerFactory.getLogger(ZkHelper.class);
 
     /**
      * zk对象

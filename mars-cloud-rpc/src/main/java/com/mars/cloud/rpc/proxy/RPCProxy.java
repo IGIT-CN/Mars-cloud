@@ -1,9 +1,7 @@
 package com.mars.cloud.rpc.proxy;
 
-import com.mars.cloud.core.annotations.MarsAPI;
-import com.mars.cloud.core.annotations.MarsRPC;
+import com.mars.cloud.core.annotations.MarsFeign;
 import com.mars.cloud.request.MarsRest;
-import com.mars.core.annotation.enums.RequestMetohd;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -13,7 +11,7 @@ import java.lang.reflect.Method;
 /**
  * 用于实现RPC的代理类
  */
-public class RCPProxy  implements MethodInterceptor {
+public class RPCProxy implements MethodInterceptor {
 
     private Enhancer enhancer;
 
@@ -42,21 +40,21 @@ public class RCPProxy  implements MethodInterceptor {
      */
     @Override
     public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        Object result = null;
 
-        MarsRPC marsRPC = cls.getAnnotation(MarsRPC.class);
+        MarsFeign marsFeign = cls.getAnnotation(MarsFeign.class);
 
-        MarsAPI marsAPI = method.getAnnotation(MarsAPI.class);
-
-        if(marsRPC == null || marsAPI == null){
-            throw new Exception("方法或者接口上缺少MarsRPC或者MarsAPI注解:["+cls.getName()+"."+method.getName()+"]");
-        }
-        if(marsAPI.method().equals(RequestMetohd.GET)){
-            result = MarsRest.get(marsRPC.name(),method.getName(),method.getReturnType());
-        } else if(marsAPI.method().equals(RequestMetohd.POST)){
-            result = MarsRest.post(marsRPC.name(),method.getName(),method.getReturnType());
+        if(marsFeign == null){
+            throw new Exception("接口上缺少MarsFeign注解:["+cls.getName()+"."+method.getName()+"]");
         }
 
-        return result;
+        Object param = null;
+        if(args != null && args.length > 0){
+            if (args.length > 1){
+                throw new Exception("Feign的方法只允许有一个参数");
+            }
+            param = args[0];
+        }
+
+        return MarsRest.request(marsFeign.serverName(),method.getName(),param,method.getReturnType());
     }
 }
