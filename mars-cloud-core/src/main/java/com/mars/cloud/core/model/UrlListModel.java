@@ -21,23 +21,6 @@ public class UrlListModel {
     private List<String> urls;
 
     /**
-     * 轮询算法
-     *
-     * @return 下标
-     */
-    public synchronized int getPollIndex() {
-
-        if (index < (urls.size() - 1)) {
-            index++;
-        } else {
-            index = 0;
-        }
-
-        return index;
-
-    }
-
-    /**
      * 随机算法
      *
      * @return 下标

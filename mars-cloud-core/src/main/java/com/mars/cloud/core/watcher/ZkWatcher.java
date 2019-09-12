@@ -1,7 +1,5 @@
 package com.mars.cloud.core.watcher;
 
-import com.mars.cloud.core.cache.CacheManager;
-import com.mars.cloud.core.helper.ZkHelper;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.slf4j.Logger;
@@ -39,27 +37,6 @@ public class ZkWatcher implements Watcher {
                 case SyncConnected:
                     /* 连接成功 */
                     countDownLatch.countDown();
-                    break;
-            }
-
-            /*
-             * 节点变动监听
-             * 这里调用getData方法是因为zk的watcher只有一次，一旦执行了就没了
-             * 所以每次执行watcher以后，都要重新监听这个节点
-             */
-            switch (event.getType()) {
-                case NodeDeleted:
-                    ZkHelper.getData(event.getPath());
-                    CacheManager.deleteUrlListModel(event.getPath());
-                    break;
-                case NodeChildrenChanged:
-                case NodeDataChanged:
-                    ZkHelper.getData(event.getPath());
-                    CacheManager.changeUrlListModel(event.getPath());
-                    break;
-                case NodeCreated:
-                    ZkHelper.getData(event.getPath());
-                    CacheManager.addUrlListModel(event.getPath());
                     break;
             }
         } catch (Exception e) {

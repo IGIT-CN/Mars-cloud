@@ -1,6 +1,5 @@
 package com.mars.cloud.reconnection;
 
-import com.mars.cloud.core.cache.CacheDAO;
 import com.mars.cloud.registered.Registered;
 
 /**
@@ -15,6 +14,5 @@ public class ReConnection {
      */
     public void reConnectionZookeeper() throws Exception {
         Registered.register();
-        CacheDAO.clear();
     }
 }
