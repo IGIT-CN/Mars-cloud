@@ -9,7 +9,7 @@ import java.util.HashMap;
 /**
  * 发起rest请求
  */
-public class MarsRest {
+public class MarsRestTemplate {
 
     /**
      * 发起请求

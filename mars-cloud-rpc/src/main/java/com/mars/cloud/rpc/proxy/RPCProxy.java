@@ -1,7 +1,7 @@
 package com.mars.cloud.rpc.proxy;
 
 import com.mars.cloud.core.annotations.MarsFeign;
-import com.mars.cloud.request.MarsRest;
+import com.mars.cloud.request.MarsRestTemplate;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
@@ -55,6 +55,6 @@ public class RPCProxy implements MethodInterceptor {
             param = args[0];
         }
 
-        return MarsRest.request(marsFeign.serverName(),method.getName(),param,method.getReturnType());
+        return MarsRestTemplate.request(marsFeign.serverName(),method.getName(),param,method.getReturnType());
     }
 }
