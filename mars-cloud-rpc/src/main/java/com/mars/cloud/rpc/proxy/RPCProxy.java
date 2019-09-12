@@ -17,7 +17,6 @@ public class RPCProxy implements MethodInterceptor {
 
     private Class<?> cls;
 
-
     /**
      * 获取代理对象
      * @param clazz  bean的class

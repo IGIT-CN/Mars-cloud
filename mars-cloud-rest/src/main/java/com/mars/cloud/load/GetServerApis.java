@@ -1,6 +1,5 @@
 package com.mars.cloud.load;
 
-import com.mars.cloud.core.cache.CacheManager;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.model.UrlListModel;
@@ -20,26 +19,8 @@ public class GetServerApis {
      * @return
      */
     public static String getUrl(String serverName,String methodName) throws Exception {
-        UrlListModel urlListModel = getUrlsFromCache(serverName, methodName);
-        if(urlListModel == null){
-            urlListModel = getUrlsFromZookeeper(serverName, methodName);
-        }
+        UrlListModel urlListModel = getUrlsFromZookeeper(serverName, methodName);
         return getUrlForList(urlListModel);
-    }
-
-    /**
-     * 从本地缓存读取接口信息
-     * @param serverName
-     * @return
-     */
-    private static UrlListModel getUrlsFromCache(String serverName, String methodName) throws Exception {
-        UrlListModel urlListModel = CacheManager.getUrlListModel(serverName+"->"+methodName);
-        if(urlListModel == null
-                || urlListModel.getUrls() == null
-                || urlListModel.getUrls().size() < 1){
-            return null;
-        }
-        return urlListModel;
     }
 
     /**
@@ -66,9 +47,6 @@ public class GetServerApis {
 
         UrlListModel urlListModel = new UrlListModel();
         urlListModel.setUrls(urls);
-
-        /* 将接口缓存下来 */
-        CacheManager.addUrlListModel(serverName+"->"+methodName,urlListModel);
 
         return urlListModel;
     }
