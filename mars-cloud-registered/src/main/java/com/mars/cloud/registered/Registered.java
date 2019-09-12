@@ -4,10 +4,12 @@ import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.util.CloudUtil;
+import com.mars.core.annotation.enums.RequestMetohd;
 import com.mars.core.constant.MarsConstant;
 import com.mars.core.constant.MarsSpace;
-import com.mars.core.logger.MarsLogger;
 import com.mars.mvc.model.MarsMappingModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -16,7 +18,7 @@ import java.util.Map;
  */
 public class Registered {
 
-    private static MarsLogger marsLogger = MarsLogger.getLogger(Registered.class);
+    private static Logger marsLogger = LoggerFactory.getLogger(Registered.class);
 
     private static MarsSpace constants = MarsSpace.getEasySpace();
 
@@ -46,6 +48,8 @@ public class Registered {
             /* 注册接口 */
             for (String methodName : maps.keySet()) {
 
+                checkRequestMethod(maps,methodName);
+
                 String node = CloudConstant.API_SERVER_NODE
                         .replace("{serverName}", serverName)
                         .replace("{method}", methodName)
@@ -74,5 +78,18 @@ public class Registered {
             controlObjects = (Map<String, MarsMappingModel>) obj;
         }
         return controlObjects;
+    }
+
+    /**
+     * 校验cloud接口是否为post
+     * @param maps
+     * @param methodName
+     * @throws Exception
+     */
+    private static void checkRequestMethod(Map<String, MarsMappingModel> maps,String methodName) throws Exception {
+        MarsMappingModel marsMappingModel = maps.get(methodName);
+        if(!marsMappingModel.getRequestMetohd().equals(RequestMetohd.POST)){
+            throw new Exception("MarsCloud对外提供的接口必须是POST方式");
+        }
     }
 }

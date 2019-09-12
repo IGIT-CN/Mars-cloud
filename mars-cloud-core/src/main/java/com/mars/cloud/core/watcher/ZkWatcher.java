@@ -2,9 +2,10 @@ package com.mars.cloud.core.watcher;
 
 import com.mars.cloud.core.cache.CacheManager;
 import com.mars.cloud.core.helper.ZkHelper;
-import com.mars.core.logger.MarsLogger;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.CountDownLatch;
@@ -14,7 +15,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public class ZkWatcher implements Watcher {
 
-    private static MarsLogger marsLogger = MarsLogger.getLogger(ZkWatcher.class);
+    private static Logger marsLogger = LoggerFactory.getLogger(ZkWatcher.class);
 
     private CountDownLatch countDownLatch;
 

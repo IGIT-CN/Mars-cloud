@@ -5,11 +5,11 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface MarsRPC {
+public @interface MarsFeign {
 
     /**
      * 服务名称
      * @return
      */
-    String name() default "";
+    String serverName() default "";
 }

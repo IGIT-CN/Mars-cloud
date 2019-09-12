@@ -3,7 +3,8 @@ package com.mars.cloud.core.cache;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.model.UrlListModel;
-import com.mars.core.logger.MarsLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class CacheManager {
 
-    private static MarsLogger marsLogger = MarsLogger.getLogger(CacheManager.class);
+    private static Logger marsLogger = LoggerFactory.getLogger(CacheManager.class);
 
 
     /**
