@@ -11,11 +11,6 @@ public class UrlListModel {
     private Random random = new Random();
 
     /**
-     * 当前下标
-     */
-    private int index = 0;
-
-    /**
      * url列表
      */
     private List<String> urls;
