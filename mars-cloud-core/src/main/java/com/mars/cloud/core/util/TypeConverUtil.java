@@ -1,12 +1,8 @@
 package com.mars.cloud.core.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mars.core.annotation.enums.RequestMetohd;
 import com.mars.core.enums.DataType;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 类型转化工具类

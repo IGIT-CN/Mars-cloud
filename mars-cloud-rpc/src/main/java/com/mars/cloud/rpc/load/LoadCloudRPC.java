@@ -22,15 +22,7 @@ public class LoadCloudRPC {
      * @throws Exception 异常
      */
     public static void loadCloudRPC() throws Exception {
-        Set<String> classList = null;
-
-        Object object = marsSpace.getAttr(MarsConstant.SCAN_ALL_CLASS);
-        if (object != null) {
-            classList = (Set<String>) object;
-        }
-        if (classList == null) {
-            return;
-        }
+        Set<String> classList = LoadHelper.getSacnClassList();
 
         Map<String, MarsBeanModel> marsBeanObjects = LoadHelper.getBeanObjectMap();
 
@@ -48,7 +40,7 @@ public class LoadCloudRPC {
                 throw new Exception("类:["+cls.getName()+"]上不允许有多个Mars注解");
             }
             if (marsFeign != null) {
-                loadMarsFeign(cls,marsFeign,marsBeanObjects);
+                loadMarsFeign(cls,marsBeanObjects);
             }
         }
     }
@@ -56,9 +48,8 @@ public class LoadCloudRPC {
     /**
      * 将feign类存下来
      * @param cls
-     * @param marsFeign
      */
-    private static void loadMarsFeign(Class cls,MarsFeign marsFeign,Map<String, MarsBeanModel> marsBeanObjects) throws Exception {
+    private static void loadMarsFeign(Class cls,Map<String, MarsBeanModel> marsBeanObjects) throws Exception {
         String beanName = LoadHelper.getBeanName("", cls);
 
         if (marsBeanObjects.get(beanName) == null) {
