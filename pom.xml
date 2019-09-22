@@ -44,7 +44,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
-                <artifactId>mars-mybatis</artifactId>
+                <artifactId>mars-mj</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
