@@ -13,6 +13,7 @@
         <module>mars-cloud-rest</module>
         <module>mars-cloud-core</module>
         <module>mars-cloud-rpc</module>
+        <module>mars-cloud-start</module>
     </modules>
 
     <properties>
