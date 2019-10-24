@@ -1,6 +1,5 @@
 package com.mars.cloud.util;
 
-import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.model.UrlListModel;
 
 import java.util.List;

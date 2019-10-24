@@ -4,7 +4,7 @@ import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.util.CloudUtil;
-import com.mars.core.annotation.enums.RequestMetohd;
+import com.mars.core.annotation.enums.ReqMethod;
 import com.mars.core.constant.MarsConstant;
 import com.mars.core.constant.MarsSpace;
 import com.mars.mvc.model.MarsMappingModel;
@@ -88,7 +88,7 @@ public class Registered {
      */
     private static void checkRequestMethod(Map<String, MarsMappingModel> maps,String methodName) throws Exception {
         MarsMappingModel marsMappingModel = maps.get(methodName);
-        if(!marsMappingModel.getRequestMetohd().equals(RequestMetohd.POST)){
+        if(!marsMappingModel.getReqMethod().equals(ReqMethod.POST)){
             throw new Exception("MarsCloud对外提供的接口必须是POST方式");
         }
     }

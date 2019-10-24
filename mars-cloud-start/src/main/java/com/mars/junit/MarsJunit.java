@@ -24,14 +24,15 @@ public abstract class MarsJunit {
 
         Map<Integer, StartMap> startList = new HashMap<>();
         startList.put(0, new StartConfig());
-        startList.put(1, new StartBeans());
-        startList.put(2, new StartJDBC());
-        startList.put(3, new StartFeign());
-        startList.put(4, new StartBeanObject());
-        startList.put(5, new HasStart());
-        startList.put(6, new StartMarsTimer());
-        startList.put(7, new StartLoadAfter());
-        startList.put(8, new StartExecuteTimer());
+        startList.put(1, new StartLoadClass());
+        startList.put(2, new StartBeans());
+        startList.put(3, new StartJDBC());
+        startList.put(4, new StartFeign());
+        startList.put(5, new StartBeanObject());
+        startList.put(6, new HasStart());
+        startList.put(7, new StartMarsTimer());
+        startList.put(8, new StartLoadAfter());
+        startList.put(9, new StartExecuteTimer());
 
         MarsJunitStart.setStartList(startList);
         MarsJunitStart.start(new InitJdbc(), packName, this, suffix);
