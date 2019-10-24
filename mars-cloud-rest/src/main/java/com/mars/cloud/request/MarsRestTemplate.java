@@ -1,7 +1,6 @@
 package com.mars.cloud.request;
 
 import com.mars.cloud.core.util.CloudHttpUtil;
-import com.mars.cloud.core.util.TypeConverUtil;
 import com.mars.cloud.load.GetServerApis;
 
 import java.util.HashMap;

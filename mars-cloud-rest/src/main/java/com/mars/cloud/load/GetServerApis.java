@@ -1,9 +1,12 @@
 package com.mars.cloud.load;
 
+import com.mars.cloud.core.cache.CacheApi;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.model.UrlListModel;
 import com.mars.cloud.util.BalancingUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,8 @@ import java.util.List;
  * 获取请求路径
  */
 public class GetServerApis {
+
+    private static Logger logger = LoggerFactory.getLogger(GetServerApis.class);
 
     /**
      * 根据服务名和Controller的mapping名称,获取接口信息
@@ -33,16 +38,18 @@ public class GetServerApis {
         if(!ZkHelper.hasConnection()){
             ZkHelper.openConnection();
         }
+        List<String> urls = new ArrayList<>();
 
         String path = CloudConstant.SERVER_NODE.replace("{serverName}",serverName).replace("{method}",methodName);
         List<String> urlNodes = ZkHelper.getChildren(path);
         if(urlNodes == null || urlNodes.size() < 1){
-            return null;
-        }
-
-        List<String> urls = new ArrayList<>();
-        for(String urlNode : urlNodes){
-            urls.add(ZkHelper.getData(path+"/"+urlNode));
+            urls = CacheApi.getCacheApi().get(path);
+            logger.error("注册中心没有发现接口地址，怀疑服务挂掉了，正在使用本地缓存补充，请及时检查: 服务名称["+serverName+"->"+methodName+"]");
+        } else {
+            for(String urlNode : urlNodes){
+                urls.add(ZkHelper.getData(path+"/"+urlNode));
+            }
+            CacheApi.getCacheApi().set(path,urls);
         }
 
         UrlListModel urlListModel = new UrlListModel();
