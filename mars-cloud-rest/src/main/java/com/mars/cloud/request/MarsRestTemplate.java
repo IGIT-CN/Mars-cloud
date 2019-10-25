@@ -32,10 +32,10 @@ public class MarsRestTemplate {
      * @throws Exception 异常
      */
     public static String request(String serverName, String methodName, Object params) throws Exception {
-        String url = "";
+        String url = "http://";
         try {
 
-            url = GetServerApis.getUrl(serverName, methodName);
+            url = url + GetServerApis.getUrl(serverName, methodName);
 
             if(params == null){
                 params = new HashMap<>();

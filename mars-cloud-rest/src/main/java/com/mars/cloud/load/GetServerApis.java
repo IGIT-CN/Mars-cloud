@@ -14,7 +14,7 @@ import java.util.List;
 public class GetServerApis {
 
     /**
-     * 根据服务名和Controller的mapping名称,获取接口信息
+     * 根据服务名和Controller的方法名称,获取接口信息
      * @param serverName
      * @return
      */
@@ -81,6 +81,6 @@ public class GetServerApis {
         if(urlList == null || urlList.size() < 1){
             throw new Exception("请求地址不正确，请检查serverName和methodName后再尝试");
         }
-        return "http://"+ BalancingManager.getUrl(path, urlList);
+        return BalancingManager.getUrl(path, urlList);
     }
 }
