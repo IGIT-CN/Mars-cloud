@@ -11,5 +11,5 @@ public @interface MarsFeign {
      * 服务名称
      * @return
      */
-    String serverName() default "";
+    String serverName();
 }

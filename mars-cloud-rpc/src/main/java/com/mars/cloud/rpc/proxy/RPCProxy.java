@@ -1,15 +1,12 @@
 package com.mars.cloud.rpc.proxy;
 
 import com.mars.cloud.core.annotations.MarsFeign;
-import com.mars.cloud.core.annotations.ResultType;
-import com.mars.cloud.core.util.TypeConverUtil;
 import com.mars.cloud.request.MarsRestTemplate;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * 用于实现RPC的代理类
@@ -49,28 +46,7 @@ public class RPCProxy implements MethodInterceptor {
 
         Object param = getParam(args);
 
-        String result = MarsRestTemplate.request(marsFeign.serverName(),method.getName(),param);
-
-        return converResultData(result,method);
-    }
-
-    /**
-     * 将返回值转化成指定类型
-     * @param result
-     * @param method
-     * @return
-     * @throws Exception
-     */
-    private Object converResultData(String result, Method method) throws Exception {
-        Class returnType = method.getReturnType();
-        if(returnType.equals(List.class)){
-            ResultType resultType = method.getAnnotation(ResultType.class);
-            if(resultType == null || resultType.type() == null){
-                throw new Exception(method.getName()+"方法的返回类型是List，必须添加ResultType注解用来指定返回的类型");
-            }
-            returnType = resultType.type();
-        }
-        return TypeConverUtil.conver(result,returnType);
+        return MarsRestTemplate.request(marsFeign.serverName(),method.getName(),param);
     }
 
     /**
@@ -80,10 +56,10 @@ public class RPCProxy implements MethodInterceptor {
      * @throws Exception 异常
      */
     private void check(MarsFeign marsFeign, Method method) throws Exception {
-        if(marsFeign == null){
-            throw new Exception("接口上缺少MarsFeign注解:["+cls.getName()+"."+method.getName()+"]");
+        if(marsFeign.serverName() == null){
+            throw new Exception("接口上MarsFeign注解的serverName为空:["+cls.getName()+"."+method.getName()+"]");
         }
-        if(method.getReturnType().getName().equals(String.class)){
+        if(!method.getReturnType().equals(String.class)){
             throw new Exception("MarsFeign的方法暂时只可以返回String类型");
         }
     }
