@@ -52,7 +52,7 @@ public class ZkWatcher implements Watcher {
             try {
                 marsLogger.info("zookeeper连接已断开，正在重新连接并注册接口");
 
-                Class cls = Class.forName("com.mars.cloud.reconnection.ReConnection");
+                Class cls = Class.forName("com.mars.cloud.refresh.RefreshManager");
                 Method method = cls.getMethod("reConnectionZookeeper");
                 method.invoke(cls.getDeclaredConstructor().newInstance());
 

@@ -21,11 +21,19 @@ public class CacheApi {
 
     /**
      * 插入缓存
-     * @param key
-     * @param urlList
+     * @param urls
      */
-    public void set(String key,List<String> urlList){
-        urls.put(key,urlList);
+    public void save(Map<String, List<String>> urls){
+        this.urls = urls;
+    }
+
+    /**
+     * 插入缓存
+     * @param key
+     * @param urls
+     */
+    public void set(String key, List<String> urls){
+        this.urls.put(key, urls);
     }
 
     /**
@@ -42,7 +50,7 @@ public class CacheApi {
      * @param key
      * @return
      */
-    public List<String> remove(String key){
-        return urls.remove(key);
+    public void remove(String key){
+        urls.remove(key);
     }
 }
