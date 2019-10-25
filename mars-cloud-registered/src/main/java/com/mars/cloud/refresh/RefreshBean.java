@@ -22,13 +22,13 @@ public class RefreshBean {
     /**
      * 刷新本地缓存的接口
      */
-    @MarsTimer(loop = 10000)
+    @MarsTimer(loop = 15000)
     public void RefreshCacheApi(){
         try {
             Map<String, List<String>> urlMap = refreshManager.refreshCacheApi();
             CacheApi.getCacheApi().save(urlMap);
         } catch (Exception e){
-            logger.error("本地缓存的接口刷新失败，10秒后将再次刷新........................",e);
+            logger.error("本地缓存的接口信息刷新失败，15秒后将再次刷新........................",e);
         }
     }
 }
