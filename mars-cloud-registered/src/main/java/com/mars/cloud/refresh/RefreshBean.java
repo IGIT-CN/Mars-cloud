@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 刷新本地缓存的接口
  */
-@MarsBean("RefreshBean")
+@MarsBean("refreshBean")
 public class RefreshBean {
 
     private Logger logger = LoggerFactory.getLogger(RefreshBean.class);
@@ -25,14 +25,10 @@ public class RefreshBean {
     @MarsTimer(loop = 10000)
     public void RefreshCacheApi(){
         try {
-            logger.info("开始刷新本地缓存的接口........................");
-
             Map<String, List<String>> urlMap = refreshManager.refreshCacheApi();
             CacheApi.getCacheApi().save(urlMap);
-
-            logger.info("本地缓存的接口刷新完成........................");
         } catch (Exception e){
-            logger.info("本地缓存的接口刷新失败，10秒后将再次刷新........................");
+            logger.error("本地缓存的接口刷新失败，10秒后将再次刷新........................",e);
         }
     }
 }
