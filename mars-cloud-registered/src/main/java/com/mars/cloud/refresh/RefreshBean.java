@@ -15,8 +15,6 @@ import java.util.Map;
 @MarsBean("refreshBean")
 public class RefreshBean {
 
-    private Logger logger = LoggerFactory.getLogger(RefreshBean.class);
-
     private RefreshManager refreshManager = new RefreshManager();
 
     /**
@@ -28,7 +26,10 @@ public class RefreshBean {
             Map<String, List<String>> urlMap = refreshManager.refreshCacheApi();
             CacheApi.getCacheApi().save(urlMap);
         } catch (Exception e){
-            logger.error("本地缓存的接口信息刷新失败，15秒后将再次刷新........................",e);
+            /*
+             * 如果出异常了，由于被捕获，所以程序不停掉，15秒后会再执行一次，而且这个异常没有提示的意义
+             * 所以这里什么都不干，让这个定时任务默默的就好
+             */
         }
     }
 }

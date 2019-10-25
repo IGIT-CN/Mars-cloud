@@ -21,7 +21,7 @@ public class CacheApi {
 
     /**
      * 插入缓存
-     * @param urls
+     * @param urls 路径
      */
     public void save(Map<String, List<String>> urls){
         this.urls = urls;
@@ -29,8 +29,8 @@ public class CacheApi {
 
     /**
      * 插入缓存
-     * @param key
-     * @param urls
+     * @param key 键
+     * @param urls 路径
      */
     public void set(String key, List<String> urls){
         this.urls.put(key, urls);
@@ -38,8 +38,8 @@ public class CacheApi {
 
     /**
      * 获取缓存
-     * @param key
-     * @return
+     * @param key 键
+     * @return 路径
      */
     public List<String> get(String key){
         return urls.get(key);
@@ -47,8 +47,7 @@ public class CacheApi {
 
     /**
      * 删除缓存
-     * @param key
-     * @return
+     * @param key 建
      */
     public void remove(String key){
         urls.remove(key);

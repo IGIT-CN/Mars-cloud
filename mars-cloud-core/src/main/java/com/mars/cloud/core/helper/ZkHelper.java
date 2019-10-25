@@ -115,6 +115,7 @@ public class ZkHelper {
      *
      * @param path 路径
      * @param data 数据
+     * @param createMode 模式
      * @return 结果
      * @throws Exception 异常
      */

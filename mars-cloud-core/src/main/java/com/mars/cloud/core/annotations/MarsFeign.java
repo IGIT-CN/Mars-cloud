@@ -9,7 +9,7 @@ public @interface MarsFeign {
 
     /**
      * 服务名称
-     * @return
+     * @return 服务名称
      */
     String serverName();
 }
