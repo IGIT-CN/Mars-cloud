@@ -1,5 +1,6 @@
 package com.mars.junit;
 
+import com.mars.core.annotation.MarsTest;
 import com.mars.mj.init.InitJdbc;
 import com.mars.start.base.MarsJunitStart;
 import com.mars.start.startmap.StartMap;
@@ -36,6 +37,10 @@ public abstract class MarsJunit {
         startList.put(9, new StartLoadAfter());
         startList.put(10, new StartExecuteTimer());
 
+        if(suffix != null && suffix.equals("")){
+            suffix = null;
+        }
+
         MarsJunitStart.setStartList(startList);
         MarsJunitStart.start(new InitJdbc(), packName, this, suffix);
     }
@@ -43,16 +48,9 @@ public abstract class MarsJunit {
     /**
      * 加载项目启动的必要数据
      *
-     * @param packName 包名
      */
-    public void init(Class packName) {
-        init(packName, null);
+    public MarsJunit() {
+        MarsTest marsTest = this.getClass().getAnnotation(MarsTest.class);
+        init(marsTest.testClass(), marsTest.config());
     }
-
-    /**
-     * 单测开始前
-     */
-    @Before
-    public abstract void before();
-
 }
