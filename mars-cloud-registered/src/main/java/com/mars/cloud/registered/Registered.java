@@ -1,5 +1,6 @@
 package com.mars.cloud.registered;
 
+import com.mars.cloud.core.annotations.NotRest;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.cloud.core.helper.ZkHelper;
 import com.mars.cloud.core.util.CloudConfigUtil;
@@ -48,6 +49,11 @@ public class Registered {
             /* 注册接口 */
             for (String methodName : maps.keySet()) {
 
+                Boolean isNotRest = checkIsRest(maps,methodName);
+                if(isNotRest){
+                    continue;
+                }
+
                 checkRequestMethod(maps,methodName);
 
                 String node = CloudConstant.API_SERVER_NODE
@@ -91,5 +97,21 @@ public class Registered {
         if(!marsMappingModel.getReqMethod().equals(ReqMethod.POST)){
             throw new Exception("MarsCloud对外提供的接口必须是POST方式");
         }
+    }
+
+    /**
+     * 校验是否是Rest接口
+     * @param maps
+     * @param methodName
+     * @return true 不是rest，false 是rest
+     */
+    private static Boolean checkIsRest(Map<String, MarsMappingModel> maps,String methodName){
+        MarsMappingModel marsMappingModel = maps.get(methodName);
+        Class<?> controllerCls = marsMappingModel.getCls();
+        NotRest notRest = controllerCls.getAnnotation(NotRest.class);
+        if(notRest != null){
+           return true;
+        }
+        return false;
     }
 }

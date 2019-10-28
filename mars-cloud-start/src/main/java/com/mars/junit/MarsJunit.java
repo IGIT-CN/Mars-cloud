@@ -7,7 +7,6 @@ import com.mars.start.startmap.StartMap;
 import com.mars.start.startmap.impl.*;
 import com.mars.startlist.StartAddClass;
 import com.mars.startlist.StartFeign;
-import org.junit.Before;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +50,6 @@ public abstract class MarsJunit {
      */
     public MarsJunit() {
         MarsTest marsTest = this.getClass().getAnnotation(MarsTest.class);
-        init(marsTest.testClass(), marsTest.config());
+        init(marsTest.startClass(), marsTest.config());
     }
 }
