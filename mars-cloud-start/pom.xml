@@ -33,10 +33,6 @@
                     <groupId>com.github.yuyenews</groupId>
                     <artifactId>mars-mj</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>com.github.yuyenews</groupId>
-                    <artifactId>mars-mj</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
