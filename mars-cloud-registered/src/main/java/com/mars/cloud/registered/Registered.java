@@ -48,24 +48,21 @@ public class Registered {
 
             /* 注册接口 */
             for (String methodName : maps.keySet()) {
-
                 Boolean isNotRest = checkIsRest(maps,methodName);
                 if(isNotRest){
-                    continue;
+                    checkRequestMethod(maps,methodName);
+
+                    String node = CloudConstant.API_SERVER_NODE
+                            .replace("{serverName}", serverName)
+                            .replace("{method}", methodName)
+                            .replace("{ip}", ip)
+                            .replace("{port}", port);
+
+                    /* 将本服务的接口已写入zookeeper */
+                    ZkHelper.createNodes(node, CloudUtil.getLocalHost() + "/" + methodName);
+
+                    marsLogger.info("接口[" + CloudUtil.getLocalHost() + "/" + methodName + "]注册成功");
                 }
-
-                checkRequestMethod(maps,methodName);
-
-                String node = CloudConstant.API_SERVER_NODE
-                        .replace("{serverName}", serverName)
-                        .replace("{method}", methodName)
-                        .replace("{ip}", ip)
-                        .replace("{port}", port);
-
-                /* 将本服务的接口已写入zookeeper */
-                ZkHelper.createNodes(node, CloudUtil.getLocalHost() + "/" + methodName);
-
-                marsLogger.info("接口[" + CloudUtil.getLocalHost() + "/" + methodName + "]注册成功");
             }
         } catch (Exception e) {
             throw new Exception("注册与发布接口失败", e);
@@ -109,7 +106,7 @@ public class Registered {
         MarsMappingModel marsMappingModel = maps.get(methodName);
         Class<?> controllerCls = marsMappingModel.getCls();
         NotRest notRest = controllerCls.getAnnotation(NotRest.class);
-        if(notRest != null){
+        if(notRest == null){
            return true;
         }
         return false;
