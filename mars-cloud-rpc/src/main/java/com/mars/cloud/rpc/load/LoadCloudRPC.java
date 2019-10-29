@@ -29,13 +29,13 @@ public class LoadCloudRPC {
         for (String str : classList) {
             Class<?> cls = Class.forName(str);
             MarsFeign marsFeign = cls.getAnnotation(MarsFeign.class);
-            Controller controller = cls.getAnnotation(Controller.class);
+            MarsApi marsApi = cls.getAnnotation(MarsApi.class);
             MarsBean marsBean = cls.getAnnotation(MarsBean.class);
             MarsInterceptor marsInterceptor = cls.getAnnotation(MarsInterceptor.class);
             MarsDao marsDao = cls.getAnnotation(MarsDao.class);
             MarsAfter marsAfter = cls.getAnnotation(MarsAfter.class);
 
-            if ((controller != null || marsBean != null || marsInterceptor != null
+            if ((marsApi != null || marsBean != null || marsInterceptor != null
                     || marsDao != null || marsAfter != null) && marsFeign != null) {
                 throw new Exception("类:["+cls.getName()+"]上不允许有多个Mars注解");
             }
