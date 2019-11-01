@@ -35,7 +35,7 @@ public class StartMars {
         startList.put(5, new StartJDBC());
         startList.put(6, new StartFeign());
         startList.put(7, new StartBeanObject());
-        startList.put(8, new StartController());
+        startList.put(8, new StartMarsApi());
         startList.put(9, new StartInter());
         startList.put(10, new HasStart());
         startList.put(11, new StartRegistered());
