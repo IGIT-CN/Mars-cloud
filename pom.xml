@@ -7,7 +7,7 @@
     <groupId>com.github.yuyenews</groupId>
     <artifactId>Mars-cloud</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
     <modules>
         <module>mars-cloud-registered</module>
         <module>mars-cloud-rest</module>
