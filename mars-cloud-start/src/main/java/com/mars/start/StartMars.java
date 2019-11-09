@@ -1,6 +1,6 @@
 package com.mars.start;
 
-import com.mars.mj.init.InitJdbc;
+import com.mars.jdbc.load.InitJdbc;
 import com.mars.start.base.BaseStartMars;
 import com.mars.start.startmap.StartMap;
 import com.mars.start.startmap.impl.*;
