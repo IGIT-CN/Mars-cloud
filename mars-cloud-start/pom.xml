@@ -5,7 +5,7 @@
     <parent>
         <artifactId>Mars-cloud</artifactId>
         <groupId>com.github.yuyenews</groupId>
-        <version>3.0.3</version>
+        <version>3.0.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,19 +19,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>com.github.yuyenews</groupId>
-                    <artifactId>mars-jdbc-base</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.github.yuyenews</groupId>
                     <artifactId>mars-mvc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.github.yuyenews</groupId>
-                    <artifactId>mars-timer</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.github.yuyenews</groupId>
-                    <artifactId>mars-mj</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -42,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-mj</artifactId>
+            <artifactId>mars-jdbc</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
