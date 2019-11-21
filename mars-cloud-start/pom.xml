@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-cloud-rpc</artifactId>
+            <artifactId>mars-cloud-feign</artifactId>
             <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>

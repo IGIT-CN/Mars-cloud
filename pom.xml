@@ -11,7 +11,7 @@
     <modules>
         <module>mars-cloud-rest</module>
         <module>mars-cloud-core</module>
-        <module>mars-cloud-rpc</module>
+        <module>mars-cloud-feign</module>
         <module>mars-cloud-start</module>
     </modules>
 
@@ -21,11 +21,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.github.yuyenews</groupId>
-                <artifactId>mars-cloud-registered</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
                 <artifactId>mars-cloud-rest</artifactId>
