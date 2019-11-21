@@ -18,6 +18,9 @@ public class ZkWatcher implements Watcher {
 
     private static Logger marsLogger = LoggerFactory.getLogger(ZkWatcher.class);
 
+    /**
+     * 刷新管理
+     */
     private RefreshManager refreshManager = new RefreshManager();
 
     private CountDownLatch countDownLatch;
