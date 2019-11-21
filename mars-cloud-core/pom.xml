@@ -17,10 +17,6 @@
             <artifactId>mars-mvc</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-jdbc</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
         </dependency>

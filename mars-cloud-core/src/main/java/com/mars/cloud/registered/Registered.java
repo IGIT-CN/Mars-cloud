@@ -44,11 +44,12 @@ public class Registered {
             String port = CloudUtil.getPort();
 
             /* 将本服务的接口发布注册到zookeeper */
-            Map<String, MarsMappingModel> maps = getControllers();
+            Map<String, MarsMappingModel> maps = getMarsApis();
 
             /* 注册接口 */
             for (String methodName : maps.keySet()) {
                 Boolean isNotRest = checkIsRest(maps,methodName);
+                /* 返回true代表这个接口不是rest接口，而是一个普通的http接口，所以不需要注册 */
                 if(isNotRest){
                     checkRequestMethod(maps,methodName);
 
@@ -70,11 +71,11 @@ public class Registered {
     }
 
     /**
-     * 获取所有的controller对象
+     * 获取所有的MarsApi对象
      *
-     * @return 所有的controller对象
+     * @return 所有的MarsApi对象
      */
-    private static Map<String, MarsMappingModel> getControllers() {
+    private static Map<String, MarsMappingModel> getMarsApis() {
         Map<String, MarsMappingModel> controlObjects = null;
         Object obj = constants.getAttr(MarsConstant.CONTROLLER_OBJECTS);
         if (obj != null) {

@@ -1,12 +1,12 @@
 package com.mars.cloud.core.watcher;
 
 import com.mars.cloud.core.cache.CacheApi;
+import com.mars.cloud.refresh.RefreshManager;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -17,6 +17,8 @@ import java.util.concurrent.CountDownLatch;
 public class ZkWatcher implements Watcher {
 
     private static Logger marsLogger = LoggerFactory.getLogger(ZkWatcher.class);
+
+    private RefreshManager refreshManager = new RefreshManager();
 
     private CountDownLatch countDownLatch;
 
@@ -65,12 +67,11 @@ public class ZkWatcher implements Watcher {
             try {
                 marsLogger.info("zookeeper连接已断开，正在重新连接并注册接口");
 
-                Class cls = Class.forName("com.mars.cloud.refresh.RefreshManager");
-                Method method = cls.getMethod("reConnectionZookeeper");
-                method.invoke(cls.getDeclaredConstructor().newInstance());
-
+                refreshManager.reConnectionZookeeper();
+                /* 如果重连成功就return掉 */
                 return;
             } catch (Exception e) {
+                /* 重连失败就 再连接一次，务必保证重连成功 */
                 marsLogger.error("zookeeper重连失败，即将重试", e);
                 continue;
             }
@@ -82,12 +83,9 @@ public class ZkWatcher implements Watcher {
      */
     private void refreshCacheApi() {
         try {
-            Class cls = Class.forName("com.mars.cloud.refresh.RefreshManager");
-            Method method = cls.getMethod("refreshCacheApi");
-            Object result =  method.invoke(cls.getDeclaredConstructor().newInstance());
+            Map<String, List<String>> result =  refreshManager.refreshCacheApi();
             if(result != null){
-                Map<String, List<String>> urlMap = (Map<String, List<String>>)result;
-                CacheApi.getCacheApi().save(urlMap);
+                CacheApi.getCacheApi().save(result);
             }
             return;
         } catch (Exception e) {

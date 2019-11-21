@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.yuyenews</groupId>
-            <artifactId>mars-cloud-registered</artifactId>
+            <artifactId>mars-cloud-core</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -9,7 +9,6 @@
     <packaging>pom</packaging>
     <version>3.0.7</version>
     <modules>
-        <module>mars-cloud-registered</module>
         <module>mars-cloud-rest</module>
         <module>mars-cloud-core</module>
         <module>mars-cloud-rpc</module>
