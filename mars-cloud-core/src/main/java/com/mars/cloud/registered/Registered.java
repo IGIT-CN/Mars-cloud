@@ -19,16 +19,16 @@ import java.util.Map;
  */
 public class Registered {
 
-    private static Logger marsLogger = LoggerFactory.getLogger(Registered.class);
+    private Logger marsLogger = LoggerFactory.getLogger(Registered.class);
 
-    private static MarsSpace constants = MarsSpace.getEasySpace();
+    private MarsSpace constants = MarsSpace.getEasySpace();
 
     /**
      * 发布注册接口
      *
      * @throws Exception 异常
      */
-    public static void register() throws Exception {
+    public void register() throws Exception {
         try {
 
             /* 打开zookeeper连接 */
@@ -75,7 +75,7 @@ public class Registered {
      *
      * @return 所有的MarsApi对象
      */
-    private static Map<String, MarsMappingModel> getMarsApis() {
+    private Map<String, MarsMappingModel> getMarsApis() {
         Map<String, MarsMappingModel> controlObjects = null;
         Object obj = constants.getAttr(MarsConstant.CONTROLLER_OBJECTS);
         if (obj != null) {
@@ -90,7 +90,7 @@ public class Registered {
      * @param methodName
      * @throws Exception
      */
-    private static void checkRequestMethod(Map<String, MarsMappingModel> maps,String methodName) throws Exception {
+    private void checkRequestMethod(Map<String, MarsMappingModel> maps,String methodName) throws Exception {
         MarsMappingModel marsMappingModel = maps.get(methodName);
         if(!marsMappingModel.getReqMethod().equals(ReqMethod.POST)){
             throw new Exception("MarsCloud对外提供的接口必须是POST方式");
@@ -103,7 +103,7 @@ public class Registered {
      * @param methodName
      * @return true 不是rest，false 是rest
      */
-    private static Boolean checkIsRest(Map<String, MarsMappingModel> maps,String methodName){
+    private Boolean checkIsRest(Map<String, MarsMappingModel> maps,String methodName){
         MarsMappingModel marsMappingModel = maps.get(methodName);
         Class<?> controllerCls = marsMappingModel.getCls();
         NotRest notRest = controllerCls.getAnnotation(NotRest.class);
