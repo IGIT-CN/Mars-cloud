@@ -19,16 +19,16 @@ import java.util.Map;
  */
 public class Registered {
 
-    private static Logger marsLogger = LoggerFactory.getLogger(Registered.class);
+    private Logger marsLogger = LoggerFactory.getLogger(Registered.class);
 
-    private static MarsSpace constants = MarsSpace.getEasySpace();
+    private MarsSpace constants = MarsSpace.getEasySpace();
 
     /**
      * 发布注册接口
      *
      * @throws Exception 异常
      */
-    public static void register() throws Exception {
+    public void register() throws Exception {
         try {
 
             /* 打开zookeeper连接 */
@@ -44,25 +44,30 @@ public class Registered {
             String port = CloudUtil.getPort();
 
             /* 将本服务的接口发布注册到zookeeper */
-            Map<String, MarsMappingModel> maps = getControllers();
+            Map<String, MarsMappingModel> maps = getMarsApis();
 
             /* 注册接口 */
             for (String methodName : maps.keySet()) {
-                Boolean isNotRest = checkIsRest(maps,methodName);
-                if(isNotRest){
-                    checkRequestMethod(maps,methodName);
 
-                    String node = CloudConstant.API_SERVER_NODE
-                            .replace("{serverName}", serverName)
-                            .replace("{method}", methodName)
-                            .replace("{ip}", ip)
-                            .replace("{port}", port);
-
-                    /* 将本服务的接口已写入zookeeper */
-                    ZkHelper.createNodes(node, CloudUtil.getLocalHost() + "/" + methodName);
-
-                    marsLogger.info("接口[" + CloudUtil.getLocalHost() + "/" + methodName + "]注册成功");
+                /* 返回null代表这个接口不是rest接口，而是一个普通的http接口，所以不需要注册 */
+                MarsMappingModel marsMappingModel = checkIsRest(maps,methodName);
+                if(marsMappingModel == null){
+                    continue;
                 }
+
+                /* 校验请求方式是否为POST */
+                checkRequestMethod(marsMappingModel);
+
+                /* 将本服务的接口写入zookeeper */
+                String node = CloudConstant.API_SERVER_NODE
+                        .replace("{serverName}", serverName)
+                        .replace("{method}", methodName)
+                        .replace("{ip}", ip)
+                        .replace("{port}", port);
+
+                ZkHelper.createNodes(node, CloudUtil.getLocalHost() + "/" + methodName);
+
+                marsLogger.info("接口[" + CloudUtil.getLocalHost() + "/" + methodName + "]注册成功");
             }
         } catch (Exception e) {
             throw new Exception("注册与发布接口失败", e);
@@ -70,11 +75,11 @@ public class Registered {
     }
 
     /**
-     * 获取所有的controller对象
+     * 获取所有的MarsApi对象
      *
-     * @return 所有的controller对象
+     * @return 所有的MarsApi对象
      */
-    private static Map<String, MarsMappingModel> getControllers() {
+    private Map<String, MarsMappingModel> getMarsApis() {
         Map<String, MarsMappingModel> controlObjects = null;
         Object obj = constants.getAttr(MarsConstant.CONTROLLER_OBJECTS);
         if (obj != null) {
@@ -85,12 +90,10 @@ public class Registered {
 
     /**
      * 校验cloud接口是否为post
-     * @param maps
-     * @param methodName
+     * @param marsMappingModel
      * @throws Exception
      */
-    private static void checkRequestMethod(Map<String, MarsMappingModel> maps,String methodName) throws Exception {
-        MarsMappingModel marsMappingModel = maps.get(methodName);
+    private void checkRequestMethod(MarsMappingModel marsMappingModel) throws Exception {
         if(!marsMappingModel.getReqMethod().equals(ReqMethod.POST)){
             throw new Exception("MarsCloud对外提供的接口必须是POST方式");
         }
@@ -102,13 +105,13 @@ public class Registered {
      * @param methodName
      * @return true 不是rest，false 是rest
      */
-    private static Boolean checkIsRest(Map<String, MarsMappingModel> maps,String methodName){
+    private MarsMappingModel checkIsRest(Map<String, MarsMappingModel> maps,String methodName){
         MarsMappingModel marsMappingModel = maps.get(methodName);
         Class<?> controllerCls = marsMappingModel.getCls();
         NotRest notRest = controllerCls.getAnnotation(NotRest.class);
         if(notRest == null){
-           return true;
+           return marsMappingModel;
         }
-        return false;
+        return null;
     }
 }

@@ -12,4 +12,10 @@ public @interface MarsFeign {
      * @return 服务名称
      */
     String serverName();
+
+    /**
+     * beanName
+     * @return
+     */
+    String beanName() default "";
 }

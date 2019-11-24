@@ -14,13 +14,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class RefreshManager {
 
+    private Registered registered = new Registered();
+
     /**
      * 重新注册接口,在watcher里反射调用的
      *
      * @throws Exception 异常
      */
     public void reConnectionZookeeper() throws Exception {
-        Registered.register();
+        registered.register();
     }
 
     /**

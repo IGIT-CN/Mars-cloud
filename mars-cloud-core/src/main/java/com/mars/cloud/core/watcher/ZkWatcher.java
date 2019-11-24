@@ -1,11 +1,14 @@
 package com.mars.cloud.core.watcher;
 
+import com.mars.cloud.core.cache.CacheApi;
+import com.mars.cloud.refresh.RefreshManager;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -14,6 +17,11 @@ import java.util.concurrent.CountDownLatch;
 public class ZkWatcher implements Watcher {
 
     private static Logger marsLogger = LoggerFactory.getLogger(ZkWatcher.class);
+
+    /**
+     * 刷新管理
+     */
+    private RefreshManager refreshManager = new RefreshManager();
 
     private CountDownLatch countDownLatch;
 
@@ -39,6 +47,16 @@ public class ZkWatcher implements Watcher {
                     countDownLatch.countDown();
                     break;
             }
+
+            /* 注册中心的接口有了变化，就刷新本地缓存 */
+            switch (event.getType()){
+                case NodeChildrenChanged:
+                case NodeCreated:
+                case NodeDeleted:
+                case NodeDataChanged:
+                    refreshCacheApi();
+                    break;
+            }
         } catch (Exception e) {
             marsLogger.error("处理zookeeper的通知时出错", e);
         }
@@ -52,15 +70,33 @@ public class ZkWatcher implements Watcher {
             try {
                 marsLogger.info("zookeeper连接已断开，正在重新连接并注册接口");
 
-                Class cls = Class.forName("com.mars.cloud.refresh.RefreshManager");
-                Method method = cls.getMethod("reConnectionZookeeper");
-                method.invoke(cls.getDeclaredConstructor().newInstance());
-
+                refreshManager.reConnectionZookeeper();
+                /* 如果重连成功就return掉 */
                 return;
             } catch (Exception e) {
+                /* 重连失败就 再连接一次，务必保证重连成功 */
                 marsLogger.error("zookeeper重连失败，即将重试", e);
                 continue;
             }
+        }
+    }
+
+    /**
+     * 刷新本地API缓存
+     */
+    private void refreshCacheApi() {
+        try {
+            Map<String, List<String>> result =  refreshManager.refreshCacheApi();
+            if(result != null){
+                CacheApi.getCacheApi().save(result);
+            }
+            return;
+        } catch (Exception e) {
+            /*
+             * 如果出异常了，由于被捕获，所以程序不会停掉
+             * 而且还有一个定时任务在做补偿，15秒后会再刷新一次
+             * 所以这里什么都不干，默默的就好
+             */
         }
     }
 }

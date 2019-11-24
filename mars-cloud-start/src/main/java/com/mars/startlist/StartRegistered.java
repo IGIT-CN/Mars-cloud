@@ -10,6 +10,8 @@ import com.mars.start.startmap.StartParam;
  */
 public class StartRegistered implements StartMap {
 
+    private Registered registered = new Registered();
+
     /**
      * 注册接口
      *
@@ -22,6 +24,6 @@ public class StartRegistered implements StartMap {
         if(object != null && (object.toString().equals("yes") || object.toString().equals("true"))){
             return;
         }
-        Registered.register();
+        registered.register();
     }
 }

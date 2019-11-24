@@ -27,7 +27,7 @@ public class RefreshBean {
             CacheApi.getCacheApi().save(urlMap);
         } catch (Exception e){
             /*
-             * 如果出异常了，由于被捕获，所以程序不停掉，15秒后会再执行一次，而且这个异常没有提示的意义
+             * 如果出异常了，由于被捕获，所以程序不会停掉，15秒后会再执行一次，而且这个异常没有提示的意义
              * 所以这里什么都不干，让这个定时任务默默的就好
              */
         }
