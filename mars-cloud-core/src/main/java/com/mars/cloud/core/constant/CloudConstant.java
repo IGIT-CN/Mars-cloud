@@ -20,4 +20,8 @@ public class CloudConstant {
      */
     public static final String API_SERVER_NODE = SERVER_NODE + "/{ip}-{port}";
 
+    /**
+     * 接受cloud传参的key
+     */
+    public static final String PARAM = "marsCloudParam";
 }

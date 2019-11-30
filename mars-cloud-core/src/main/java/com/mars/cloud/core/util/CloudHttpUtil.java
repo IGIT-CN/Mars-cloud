@@ -1,6 +1,6 @@
 package com.mars.cloud.core.util;
 
-import com.mars.core.constant.MarsCloudConstant;
+import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.core.util.SerializableUtil;
 import okhttp3.*;
 
@@ -37,8 +37,7 @@ public class CloudHttpUtil {
         RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), param);
         MultipartBody body = new MultipartBody.Builder()
                 .setType(formData)
-                .addFormDataPart(MarsCloudConstant.PARAM, "params", fileBody)
-                .addFormDataPart(MarsCloudConstant.REQUEST_TYPE, MarsCloudConstant.REQUEST_TYPE)
+                .addFormDataPart(CloudConstant.PARAM, "params", fileBody)
                 .build();
         Request request = new Request.Builder()
                 .post(body)

@@ -55,7 +55,7 @@ public class Registered {
                     continue;
                 }
 
-                /* 校验请求方式是否为POST */
+                /* 校验接口是否符合规则 */
                 checkRequestMethod(marsMappingModel);
 
                 /* 将本服务的接口写入zookeeper */
@@ -94,8 +94,13 @@ public class Registered {
      * @throws Exception
      */
     private void checkRequestMethod(MarsMappingModel marsMappingModel) throws Exception {
+        Class cls = marsMappingModel.getCls();
+        String methodName = marsMappingModel.getMethod();
         if(!marsMappingModel.getReqMethod().equals(ReqMethod.POST)){
-            throw new Exception("MarsCloud对外提供的接口必须是POST方式");
+            throw new Exception("MarsCloud对外提供的接口必须是POST方式["+cls+"."+methodName+"]");
+        }
+        if(marsMappingModel.getExeMethod().getParameterCount() > 1){
+            throw new Exception("MarsCloud对外提供的接口只允许有一个参数，如果你有多个参数，可以合并成一个实体类或者用Map["+cls+"."+methodName+"]");
         }
     }
 

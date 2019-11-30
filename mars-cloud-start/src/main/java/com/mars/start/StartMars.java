@@ -6,6 +6,7 @@ import com.mars.start.startmap.StartMap;
 import com.mars.start.startmap.impl.*;
 import com.mars.startlist.StartAddClass;
 import com.mars.startlist.StartFeign;
+import com.mars.startlist.StartLoadParamAndResult;
 import com.mars.startlist.StartRegistered;
 
 import java.util.HashMap;
@@ -36,12 +37,13 @@ public class StartMars {
         startList.put(6, new StartFeign());
         startList.put(7, new StartBeanObject());
         startList.put(8, new StartMarsApi());
-        startList.put(9, new StartInter());
-        startList.put(10, new HasStart());
-        startList.put(11, new StartRegistered());
-        startList.put(12, new StartMarsTimer());
-        startList.put(13, new StartLoadAfter());
-        startList.put(14, new StartExecuteTimer());
+        startList.put(9, new StartLoadParamAndResult());
+        startList.put(10, new StartInter());
+        startList.put(11, new HasStart());
+        startList.put(12, new StartRegistered());
+        startList.put(13, new StartMarsTimer());
+        startList.put(14, new StartLoadAfter());
+        startList.put(15, new StartExecuteTimer());
 
         BaseStartMars.setStartList(startList);
         if (args != null && args[0] != null) {

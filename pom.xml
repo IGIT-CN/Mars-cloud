@@ -17,7 +17,7 @@
 
     <properties>
         <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
-        <mars.java.version>3.0.8</mars.java.version>
+        <mars.java.version>3.0.9</mars.java.version>
     </properties>
 
     <dependencyManagement>
