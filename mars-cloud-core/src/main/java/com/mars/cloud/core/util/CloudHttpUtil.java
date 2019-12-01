@@ -4,6 +4,7 @@ import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.core.util.SerializableUtil;
 import okhttp3.*;
 
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,7 +26,7 @@ public class CloudHttpUtil {
      * @return 结果
      * @throws Exception 异常
      */
-    public static String request(String url, Object params) throws Exception {
+    public static InputStream request(String url, Object params) throws Exception {
 
         /* 将参数序列化成byte[] */
         byte[] param = SerializableUtil.serialization(params);
@@ -56,7 +57,7 @@ public class CloudHttpUtil {
      * @return 结果
      * @throws Exception 异常
      */
-    private static String okCall(OkHttpClient okHttpClient, Request request) throws Exception {
+    private static InputStream okCall(OkHttpClient okHttpClient, Request request) throws Exception {
         Call call = okHttpClient.newCall(request);
         Response response = call.execute();
 
@@ -65,7 +66,7 @@ public class CloudHttpUtil {
         if (code != 200) {
             throw new Exception("请求接口出现异常:" + responseBody.string());
         }
-        return responseBody.string();
+        return responseBody.byteStream();
     }
 
     /**

@@ -1,15 +1,15 @@
 package com.mars.cloud.util;
 
-import com.alibaba.fastjson.JSON;
 import com.mars.cloud.core.constant.CloudConstant;
 import com.mars.core.constant.MarsConstant;
-import com.mars.core.enums.DataType;
 import com.mars.core.util.SerializableUtil;
 import com.mars.netty.par.base.BaseParamAndResult;
 import com.mars.server.server.request.HttpMarsRequest;
 import com.mars.server.server.request.HttpMarsResponse;
 import com.mars.server.server.request.model.MarsFileUpLoad;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 
 public class CloudParamAndResult implements BaseParamAndResult {
@@ -48,13 +48,21 @@ public class CloudParamAndResult implements BaseParamAndResult {
      */
     @Override
     public void result(HttpMarsResponse response, Object resultObj) throws Exception {
-        if(!isNotObject(resultObj)) {
-            resultObj = JSON.toJSONString(resultObj);
-        } else if(resultObj != null && resultObj.toString().equals(MarsConstant.VOID)) {
+        if(resultObj != null && resultObj.toString().equals(MarsConstant.VOID)) {
             throw new Exception("API的返回类型不可以为void");
         }
-        // 后期改成序列化后 返回
-        response.send(String.valueOf(resultObj));
+        byte[] bytes = SerializableUtil.serialization(resultObj);
+        response.downLoad("blank",converToInputStream(bytes));
+    }
+
+    /**
+     * 将序列化后的对象转成输入流
+     * @param by
+     * @return
+     */
+    private InputStream converToInputStream(byte[] by){
+        InputStream swapStream = new ByteArrayInputStream(by);
+        return swapStream;
     }
 
     /**
@@ -69,35 +77,7 @@ public class CloudParamAndResult implements BaseParamAndResult {
         if(marsFileUpLoad == null){
             return null;
         }
-        byte[] bytes = marsFileUpLoad.getBytes();
-        return SerializableUtil.deSerialization(bytes, cls);
-    }
-
-    /**
-     * 判断是否是对象
-     * @param result
-     * @return
-     */
-    private boolean isNotObject(Object result){
-        if(result == null){
-            return true;
-        }
-        String fieldTypeName = result.getClass().getSimpleName().toUpperCase();
-        switch (fieldTypeName){
-            case DataType.INT:
-            case DataType.INTEGER:
-            case DataType.BYTE:
-            case DataType.STRING:
-            case DataType.CHAR:
-            case DataType.CHARACTER:
-            case DataType.DOUBLE:
-            case DataType.FLOAT:
-            case DataType.LONG:
-            case DataType.SHORT:
-            case DataType.BOOLEAN:
-            case DataType.DATE:
-                return true;
-        }
-        return false;
+        InputStream inputStream = marsFileUpLoad.getInputStream();
+        return SerializableUtil.deSerialization(inputStream, cls);
     }
 }
