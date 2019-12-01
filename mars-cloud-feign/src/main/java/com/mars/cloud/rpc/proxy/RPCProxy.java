@@ -46,7 +46,7 @@ public class RPCProxy implements MethodInterceptor {
 
         Object param = getParam(args);
 
-        return MarsRestTemplate.request(marsFeign.serverName(),method.getName(),param);
+        return MarsRestTemplate.request(marsFeign.serverName(),method.getName(),param, method.getReturnType());
     }
 
     /**
@@ -58,9 +58,6 @@ public class RPCProxy implements MethodInterceptor {
     private void check(MarsFeign marsFeign, Method method) throws Exception {
         if(marsFeign.serverName() == null){
             throw new Exception("接口上MarsFeign注解的serverName为空:["+cls.getName()+"."+method.getName()+"]");
-        }
-        if(!method.getReturnType().equals(String.class)){
-            throw new Exception("MarsFeign的方法暂时只可以返回String类型");
         }
     }
 

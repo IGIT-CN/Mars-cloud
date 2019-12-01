@@ -2,7 +2,9 @@ package com.mars.cloud.request;
 
 import com.mars.cloud.core.util.CloudHttpUtil;
 import com.mars.cloud.load.GetServerApis;
+import com.mars.core.util.SerializableUtil;
 
+import java.io.InputStream;
 import java.util.HashMap;
 
 /**
@@ -18,8 +20,8 @@ public class MarsRestTemplate {
      * @return 结果
      * @throws Exception 异常
      */
-    public static String request(String serverName, String methodName) throws Exception {
-        return request(serverName, methodName, null);
+    public static <T> T request(String serverName, String methodName,Class<T> resultType) throws Exception {
+        return request(serverName, methodName, null,resultType);
     }
 
     /**
@@ -31,7 +33,7 @@ public class MarsRestTemplate {
      * @return 结果
      * @throws Exception 异常
      */
-    public static String request(String serverName, String methodName, Object params) throws Exception {
+    public static <T> T request(String serverName, String methodName, Object params, Class<T> resultType) throws Exception {
         String url = "http://";
         try {
 
@@ -41,7 +43,9 @@ public class MarsRestTemplate {
                 params = new HashMap<>();
             }
 
-            return CloudHttpUtil.request(url, params);
+            InputStream inputStream = CloudHttpUtil.request(url, params);
+
+            return SerializableUtil.deSerialization(inputStream, resultType);
         } catch (Exception e) {
             throw new Exception("发起请求出现异常,url:[" + url + "],", e);
         }

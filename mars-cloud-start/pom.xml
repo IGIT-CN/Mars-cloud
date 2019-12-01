@@ -5,7 +5,7 @@
     <parent>
         <artifactId>Mars-cloud</artifactId>
         <groupId>com.github.yuyenews</groupId>
-        <version>3.0.8</version>
+        <version>3.0.6</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -26,12 +26,12 @@
         <dependency>
             <groupId>com.github.yuyenews</groupId>
             <artifactId>mars-start-base</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${mars.java.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.yuyenews</groupId>
             <artifactId>mars-jdbc</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${mars.java.version}</version>
         </dependency>
     </dependencies>
 </project>

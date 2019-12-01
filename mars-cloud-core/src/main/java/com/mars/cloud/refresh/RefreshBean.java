@@ -3,8 +3,6 @@ package com.mars.cloud.refresh;
 import com.mars.cloud.core.cache.CacheApi;
 import com.mars.core.annotation.MarsBean;
 import com.mars.core.annotation.MarsTimer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;

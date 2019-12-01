@@ -7,7 +7,7 @@
     <groupId>com.github.yuyenews</groupId>
     <artifactId>Mars-cloud</artifactId>
     <packaging>pom</packaging>
-    <version>3.0.8</version>
+    <version>3.0.6</version>
     <modules>
         <module>mars-cloud-rest</module>
         <module>mars-cloud-core</module>
@@ -17,6 +17,7 @@
 
     <properties>
         <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+        <mars.java.version>3.0.9</mars.java.version>
     </properties>
 
     <dependencyManagement>
@@ -35,12 +36,12 @@
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
                 <artifactId>mars-mvc</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${mars.java.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.yuyenews</groupId>
                 <artifactId>mars-jdbc</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${mars.java.version}</version>
             </dependency>
 
             <dependency>

@@ -21,7 +21,7 @@ public class RefreshManager {
      *
      * @throws Exception 异常
      */
-    public void reConnectionZookeeper() throws Exception {
+    public synchronized void reConnectionZookeeper() throws Exception {
         registered.register();
     }
 
@@ -30,7 +30,7 @@ public class RefreshManager {
      * @return 所有的接口
      * @throws Exception 异常
      */
-    public Map<String,List<String>> refreshCacheApi() throws Exception {
+    public synchronized Map<String,List<String>> refreshCacheApi() throws Exception {
         /* 如果zk没有打开连接的话 就打开一下 */
         ZkHelper.openConnection();
 
