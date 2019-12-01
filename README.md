@@ -21,7 +21,7 @@ cloud:
   # 尽量长一点，防止接口过多来不及发布
   sessionTimeout: 10000
   # 是否作为网关
-  gateWay: yes
+  gateWay: false
   # 请求Mars-Cloud接口超时时间
   timeOut: 10000
   # zookeeper地址，多个地址用英文逗号分割
