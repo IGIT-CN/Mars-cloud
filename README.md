@@ -1,30 +1,30 @@
 # Mars-cloud
 
-Mars-cloud 是 Mars-java 的官方分布式中间件
+Mars-cloud is the official distributed middleware for Mars
 
-## 只需要换一个start
+## Just need to change a start
 
 ````
 <dependency>
     <groupId>com.github.yuyenews</groupId>
     <artifactId>mars-cloud-start</artifactId>
-    <version>最新版，可看官网文档目录《Mars介绍》</version>
+    <version>The latest version, see the official website document directory 《Mars Introduction》</version>
 </dependency>
 ````
 
-## 添加5行配置
+## Add 5 lines of configuration
 
 ````
 cloud:
-  # 服务名称，同一个服务的负载均衡集群的name必须一致，不同集群之间必须唯一
+  # Service name, the name of the load balancing cluster of the same service must be the same, and it must be unique among different clusters
   name: cloud-client1
-  # 尽量长一点，防止接口过多来不及发布
+  # Make it as long
   sessionTimeout: 10000
-  # 是否作为网关
+  # Whether to act as a gateway
   gateWay: false
-  # 请求Mars-Cloud接口超时时间
+  # Request Mars-Cloud interface timeout
   timeOut: 10000
-  # zookeeper地址，多个地址用英文逗号分割
-  # 多个地址，一定要加双引号，不然解析yml文件会出错
+  # zookeeper address, multiple addresses are separated by commas
+  # Multiple addresses, be sure to add double quotes, otherwise it will be wrong to parse the yml file
   register: 10.211.55.9:2180
 ````
