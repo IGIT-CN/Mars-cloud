@@ -68,7 +68,16 @@ public class BalancingManager {
      * @return 结果
      */
     private static String polling(String path, List<String> urls) {
-        return urls.get(getPollingIndex(path,urls));
+        int index = getPollingIndex(path,urls);
+        String url = urls.get(index);
+        while(url == null && index > 0){
+            index--;
+            url = urls.get(index);
+            if(url != null){
+                return url;
+            }
+        }
+        return url;
     }
 
     /**
