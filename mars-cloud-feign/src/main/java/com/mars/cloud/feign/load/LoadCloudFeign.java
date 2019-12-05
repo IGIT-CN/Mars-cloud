@@ -1,7 +1,7 @@
-package com.mars.cloud.rpc.load;
+package com.mars.cloud.feign.load;
 
 import com.mars.cloud.core.annotations.MarsFeign;
-import com.mars.cloud.rpc.proxy.RPCProxy;
+import com.mars.cloud.feign.proxy.FeignProxy;
 import com.mars.core.annotation.*;
 import com.mars.core.constant.MarsConstant;
 import com.mars.core.constant.MarsSpace;
@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * 加载
  */
-public class LoadCloudRPC {
+public class LoadCloudFeign {
 
     private static MarsSpace marsSpace = MarsSpace.getEasySpace();
 
@@ -21,7 +21,7 @@ public class LoadCloudRPC {
      * 加载RPC对象
      * @throws Exception 异常
      */
-    public static void loadCloudRPC() throws Exception {
+    public static void LoadCloudFeign() throws Exception {
         Set<String> classList = LoadHelper.getSacnClassList();
 
         Map<String, MarsBeanModel> marsBeanObjects = LoadHelper.getBeanObjectMap();
@@ -56,7 +56,7 @@ public class LoadCloudRPC {
             MarsBeanModel beanModel = new MarsBeanModel();
             beanModel.setName(beanName);
             beanModel.setCls(cls);
-            beanModel.setObj(new RPCProxy().getProxy(cls));
+            beanModel.setObj(new FeignProxy().getProxy(cls));
             marsBeanObjects.put(beanName, beanModel);
 
             /* 保险起见，数据重插 */

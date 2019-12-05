@@ -1,4 +1,4 @@
-package com.mars.cloud.rpc.proxy;
+package com.mars.cloud.feign.proxy;
 
 import com.mars.cloud.core.annotations.MarsFeign;
 import com.mars.cloud.request.MarsRestTemplate;
@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 /**
  * 用于实现RPC的代理类
  */
-public class RPCProxy implements MethodInterceptor {
+public class FeignProxy implements MethodInterceptor {
 
     private Enhancer enhancer;
 
