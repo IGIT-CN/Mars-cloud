@@ -13,7 +13,7 @@ public class StartRegistered implements StartMap {
     private Registered registered = new Registered();
 
     /**
-     * 注册接口
+     * 注册接口到zk
      *
      * @param startParam 参数
      * @throws Exception 异常
