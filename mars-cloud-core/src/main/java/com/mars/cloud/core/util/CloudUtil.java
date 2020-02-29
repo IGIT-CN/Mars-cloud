@@ -41,6 +41,6 @@ public class CloudUtil {
      * @return 端口号
      */
     public static String getPort() {
-        return MarsAddressUtil.getPort();
+        return String.valueOf(MarsAddressUtil.getPort());
     }
 }

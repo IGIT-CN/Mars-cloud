@@ -1,6 +1,7 @@
 package com.mars.cloud.core.helper;
 
-import com.alibaba.fastjson.JSONObject;
+import com.mars.cloud.core.config.MarsCloudConfig;
+import com.mars.cloud.core.config.model.CloudConfig;
 import com.mars.cloud.core.util.CloudConfigUtil;
 import com.mars.cloud.core.watcher.ZkWatcher;
 import org.apache.zookeeper.*;
@@ -41,10 +42,10 @@ public class ZkHelper {
      * @throws Exception 异常
      */
     private static void init() throws Exception {
-        JSONObject config = CloudConfigUtil.getCloudConfig();
-
-        registeds = config.getString("register");
-        Object configTimeOut = config.get("sessionTimeout");
+        MarsCloudConfig config = CloudConfigUtil.getMarsCloudConfig();
+        CloudConfig cloudConfig = config.getCloudConfig();
+        registeds = cloudConfig.getRegister();
+        Object configTimeOut = cloudConfig.getSessionTimeout();
         if (configTimeOut != null) {
             sessionTimeout = Integer.parseInt(configTimeOut.toString());
             if (sessionTimeout <= 30000) {

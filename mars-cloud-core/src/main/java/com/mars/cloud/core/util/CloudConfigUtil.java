@@ -1,7 +1,8 @@
 package com.mars.cloud.core.util;
 
-import com.alibaba.fastjson.JSONObject;
-import com.mars.core.util.ConfigUtil;
+import com.mars.cloud.core.config.MarsCloudConfig;
+import com.mars.core.base.config.MarsConfig;
+import com.mars.core.util.MarsConfiguration;
 
 /**
  * cloud模块配置文件管理
@@ -14,27 +15,10 @@ public class CloudConfigUtil {
      * @return 配置
      * @throws Exception 异常
      */
-    public static JSONObject getCloudConfig() throws Exception {
+    public static MarsCloudConfig getMarsCloudConfig() throws Exception {
         try {
-            JSONObject config = ConfigUtil.getConfig();
-            JSONObject cloudConfig = config.getJSONObject("cloud");
-            return cloudConfig;
-        } catch (Exception e) {
-            throw new Exception("获取cloud配置失败", e);
-        }
-    }
-
-    /**
-     * 获取cloud配置文件
-     *
-     * @param key 配置文件key
-     * @return 配置
-     * @throws Exception 异常
-     */
-    public static Object getCloudConfig(String key) throws Exception {
-        try {
-            JSONObject config = getCloudConfig();
-            return config.get(key);
+            MarsConfig config = MarsConfiguration.getConfig();
+            return (MarsCloudConfig)config;
         } catch (Exception e) {
             throw new Exception("获取cloud配置失败", e);
         }
@@ -48,9 +32,8 @@ public class CloudConfigUtil {
      */
     public static String getCloudName() throws Exception {
         try {
-            JSONObject cloudConfig = getCloudConfig();
-            String cloudName = cloudConfig.getString("name");
-            return cloudName;
+            MarsCloudConfig cloudConfig = getMarsCloudConfig();
+            return cloudConfig.getCloudConfig().getName();
         } catch (Exception e) {
             throw new Exception("获取cloud配置中的服务name失败", e);
         }
