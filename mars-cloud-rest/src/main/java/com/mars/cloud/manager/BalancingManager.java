@@ -1,7 +1,7 @@
 package com.mars.cloud.manager;
 
 import com.mars.cloud.core.util.CloudConfigUtil;
-import com.mars.cloud.enums.Strategy;
+import com.mars.cloud.core.config.model.enums.Strategy;
 import com.mars.server.server.request.HttpMarsContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +29,7 @@ public class BalancingManager {
      */
     public static String getUrl(String path,List<String> urls) {
         try {
-            Object cfgStrategy = CloudConfigUtil.getCloudConfig("strategy");
-            if(cfgStrategy == null){
-                /* 默认为轮询策略 */
-                cfgStrategy = "1";
-            }
-            Strategy strategy = Strategy.getStrategyByCode(cfgStrategy.toString());
+            Strategy strategy = CloudConfigUtil.getMarsCloudConfig().getCloudConfig().getStrategy();
 
             switch (strategy){
                 case POLLING:
@@ -68,7 +63,16 @@ public class BalancingManager {
      * @return 结果
      */
     private static String polling(String path, List<String> urls) {
-        return urls.get(getPollingIndex(path,urls));
+        int index = getPollingIndex(path,urls);
+        String url = urls.get(index);
+        while(url == null && index > 0){
+            index--;
+            url = urls.get(index);
+            if(url != null){
+                return url;
+            }
+        }
+        return url;
     }
 
     /**

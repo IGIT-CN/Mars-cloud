@@ -90,7 +90,7 @@ public class CloudHttpUtil {
      * @throws Exception 异常
      */
     private static void init() throws Exception {
-        Object obj = CloudConfigUtil.getCloudConfig("timeOut");
+        Object obj = CloudConfigUtil.getMarsCloudConfig().getCloudConfig().getName();
         if (obj == null) {
             timeOut = 10000;
         } else {

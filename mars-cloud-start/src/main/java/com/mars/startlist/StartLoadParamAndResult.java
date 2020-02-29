@@ -14,8 +14,8 @@ public class StartLoadParamAndResult implements StartMap {
 
     @Override
     public void load(StartParam startParam) throws Exception {
-        Object object = CloudConfigUtil.getCloudConfig("gateWay");
-        if(object != null && (object.toString().equals("yes") || object.toString().equals("true"))){
+        Boolean getWay = CloudConfigUtil.getMarsCloudConfig().getCloudConfig().getGateWay();
+        if(getWay != null && getWay){
             ParamAndResultFactory.setBaseParamAndResult(new ParamAndResult());
         } else {
             ParamAndResultFactory.setBaseParamAndResult(new CloudParamAndResult());

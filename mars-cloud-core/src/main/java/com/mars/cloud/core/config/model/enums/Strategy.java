@@ -1,4 +1,4 @@
-package com.mars.cloud.enums;
+package com.mars.cloud.core.config.model.enums;
 
 /**
  * 负载均衡策略

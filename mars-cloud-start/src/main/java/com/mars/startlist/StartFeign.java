@@ -1,6 +1,6 @@
 package com.mars.startlist;
 
-import com.mars.cloud.rpc.load.LoadCloudRPC;
+import com.mars.cloud.feign.load.LoadCloudFeign;
 import com.mars.start.startmap.StartMap;
 import com.mars.start.startmap.StartParam;
 
@@ -16,6 +16,6 @@ public class StartFeign implements StartMap {
      */
     @Override
     public void load(StartParam startParam) throws Exception {
-        LoadCloudRPC.loadCloudRPC();
+        LoadCloudFeign.LoadCloudFeign();
     }
 }

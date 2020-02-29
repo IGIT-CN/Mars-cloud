@@ -13,15 +13,15 @@ public class StartRegistered implements StartMap {
     private Registered registered = new Registered();
 
     /**
-     * 注册接口
+     * 注册接口到zk
      *
      * @param startParam 参数
      * @throws Exception 异常
      */
     @Override
     public void load(StartParam startParam) throws Exception {
-        Object object = CloudConfigUtil.getCloudConfig("gateWay");
-        if(object != null && (object.toString().equals("yes") || object.toString().equals("true"))){
+        Boolean getWay = CloudConfigUtil.getMarsCloudConfig().getCloudConfig().getGateWay();
+        if(getWay != null && getWay){
             return;
         }
         registered.register();

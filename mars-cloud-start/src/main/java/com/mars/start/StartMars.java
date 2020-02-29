@@ -1,5 +1,7 @@
 package com.mars.start;
 
+import com.mars.cloud.core.config.MarsCloudConfig;
+import com.mars.core.util.MarsConfiguration;
 import com.mars.jdbc.load.InitJdbc;
 import com.mars.start.base.BaseStartMars;
 import com.mars.start.startmap.StartMap;
@@ -24,42 +26,32 @@ public class StartMars {
      *
      * @param clazz 类
      */
-    public static void start(Class<?> clazz, String[] args) {
+    public static void start(Class<?> clazz, MarsCloudConfig marsCloudConfig) {
 
         Map<Integer, StartMap> startList = new HashMap<>();
 
         startList.put(0, new StartCoreServlet());
-        startList.put(1, new StartConfig());
-        startList.put(2, new StartLoadClass());
-        startList.put(3, new StartAddClass());
-        startList.put(4, new StartBeans());
-        startList.put(5, new StartJDBC());
-        startList.put(6, new StartFeign());
-        startList.put(7, new StartBeanObject());
-        startList.put(8, new StartMarsApi());
-        startList.put(9, new StartLoadParamAndResult());
-        startList.put(10, new StartInter());
-        startList.put(11, new HasStart());
-        startList.put(12, new StartRegistered());
-        startList.put(13, new StartMarsTimer());
-        startList.put(14, new StartLoadAfter());
-        startList.put(15, new StartExecuteTimer());
+        startList.put(1, new StartLoadClass());
+        startList.put(2, new StartAddClass());
+        startList.put(3, new StartBeans());
+        startList.put(4, new StartJDBC());
+        startList.put(5, new StartFeign());
+        startList.put(6, new StartBeanObject());
+        startList.put(7, new StartMarsApi());
+        startList.put(8, new StartLoadParamAndResult());
+        startList.put(9, new StartInter());
+        startList.put(10, new HasStart());
+        startList.put(11, new StartRegistered());
+        startList.put(12, new StartMarsTimer());
+        startList.put(13, new StartLoadAfter());
+        startList.put(14, new StartExecuteTimer());
 
         BaseStartMars.setStartList(startList);
-        if (args != null && args[0] != null) {
-            BaseStartMars.start(clazz, new InitJdbc(), args[0]);
-        } else {
-            BaseStartMars.start(clazz, new InitJdbc(), null);
+
+        if(marsCloudConfig != null){
+            MarsConfiguration.loadConfig(marsCloudConfig);
         }
-    }
 
-    /**
-     * 启动Mars框架
-     *
-     * @param clazz 类
-     */
-    public static void start(Class<?> clazz) {
-        start(clazz,null);
+        BaseStartMars.start(clazz,new InitJdbc());
     }
-
 }
