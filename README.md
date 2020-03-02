@@ -33,17 +33,24 @@ Mars-cloud is the official distributed middleware for Mars
 
 ## Add 5 lines of configuration
 
-````
-cloud:
-  # Service name, the name of the load balancing cluster of the same service must be the same, and it must be unique among different clusters
-  name: cloud-client1
-  # Make it as long
-  sessionTimeout: 10000
-  # Whether to act as a gateway
-  gateWay: false
-  # Request Mars-Cloud interface timeout
-  timeOut: 10000
-  # zookeeper address, multiple addresses are separated by commas
-  # Multiple addresses, be sure to add double quotes, otherwise it will be wrong to parse the yml file
-  register: 10.211.55.9:2180
-````
+```
+public class DemoConfig extends MarsCloudConfig {
+	@Override
+	public CloudConfig getCloudConfig() {
+		CloudConfig cloudConfig = new CloudConfig();
+		// Service name, the name of the load balancing cluster of the same service must be the same, and it must be unique among different clusters
+		cloudConfig.setName("");
+		// Make it as long
+		cloudConfig.setSessionTimeout(10000L);
+		// Request Mars-Cloud interface timeout
+		cloudConfig.setTimeOut(10000L);
+		// Whether to act as a gateway
+		cloudConfig.setGateWay(false);
+		// zookeeper address, multiple addresses are separated by commas
+		cloudConfig.setRegister("");
+		// Load balancing policy (only supports polling for the time being, random two)
+		cloudConfig.setStrategy(Strategy.POLLING);
+		return cloudConfig;
+	}
+}
+```
